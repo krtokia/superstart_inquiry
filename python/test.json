@@ -1,0 +1,48 @@
+{
+	"domain": "https://finance.naver.com",
+	"data": [
+		{
+			"queries": [
+				{
+					"type": "text",
+					"column": "컬럼2",
+					"query": "div.today > p.no_today:nth-child(1)"
+				},
+				{
+					"type": "page",
+					"column": "컬럼1",
+					"query": "td.title>a:nth-child(1)",
+					"child": {
+						"queries": [
+							{
+								"type": "text",
+								"column": "자식컬럼1",
+								"query": "table.view > tbody > tr > th > strong.c:nth-child(1)"
+							},
+							{
+								"type": "text",
+								"column": "자식컬럼3",
+								"query": "div.u_cbox_text_wrap > span.u_cbox_contents:nth-child(1)"
+							},
+							{
+								"type": "text",
+								"column": "자식컬럼2",
+								"query": "div.scr01 > div.view_se:nth-child(1)"
+							}
+						]
+					}
+				},
+				{
+					"type": "text",
+					"column": "컬럼33",
+					"query": "div.today > p.no_exday:nth-child(2)"
+				}
+			],
+			"url": "/item/board.naver?code=079550&page=[[:page:]]",
+			"startPage": "1",
+			"endPage": "2",
+			"pagePattern": "page=[[:page:]]",
+			"pageType": "Q"
+		}
+	]
+}

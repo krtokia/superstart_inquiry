@@ -1,0 +1,5382 @@
+<!--  global include --><html lang="ko" data-useragent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/602.1 (KHTML, like Gecko) splash Version/10.0 Safari/602.1"><head>
+
+
+	
+	
+		
+			
+			
+				<title>시가총액 : 네이버 금융</title>
+			
+		
+	
+
+
+
+
+
+	
+	
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+
+
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+
+
+
+
+	
+    
+        <meta property="og:url" content="http://finance.naver.com/sise/sise_market_sum.naver">
+        
+			
+		    
+		    	<meta property="og:title" content="시가총액 : 네이버 금융">
+		     
+		
+		
+			
+			   <meta property="og:description" content="관심종목의 실시간 주가를 가장 빠르게 확인하는 곳">
+		    
+		    
+		
+		 
+			
+			    <meta property="og:image" content="https://ssl.pstatic.net/static/m/stock/im/2016/08/og_stock-200.png">
+		    
+		    
+		
+    
+
+<meta property="og:type" content="article">
+<meta property="og:article:thumbnailUrl" content="">
+<meta property="og:article:author" content="네이버금융">
+<meta property="og:article:author:url" content="http://FINANCE.NAVER.COM">
+
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/finance_header.css">
+
+	
+	
+	
+	
+		
+		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/newstock.css">
+		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/common.css">
+		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/layout.css">
+		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/main.css">
+		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/newstock2.css">
+		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/newstock3.css">
+		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/world.css">
+		
+			
+			
+				<script type="text/javascript" src="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/js/jindo.min.ns.1.5.3.euckr.js"></script>
+				<script type="text/javascript" src="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/js/release/common.js"></script>
+				<script type="text/javascript" src="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/js/jindoComponent/jindo.Component.1.0.3.js"></script>
+				<script type="text/javascript" src="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/js/nhn.autocomplete.stock.js"></script>
+			
+		
+
+		
+			<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/css/chartiq.css">
+			<script type="text/javascript" src="https://ssl.pstatic.net/imgstock/static.pc/20220407160311/js/thirdparty/html2canvas.min.js"></script>
+		
+	
+
+<script>
+	var ieVersion = (function () {
+        var version = -1;
+        if (
+          navigator.appName == 'Microsoft Internet Explorer' &&
+          navigator.userAgent.toLowerCase().indexOf('msie') != -1 &&
+          new RegExp('MSIE ([0-9]{1,}[\./0-9]{0,})').exec(navigator.userAgent) != null
+        ) {
+          version = parseInt(RegExp.$1);
+        }
+        return version;
+      })();
+</script>
+	
+	<!-- smart channel 광고 -->
+	<script async="" src="https://ssl.pstatic.net/tveta/libs/glad/prod/gfp-core.js">
+		</script>
+	<script type="text/javascript">
+		(function(){
+			if (ieVersion === -1 || ieVersion > 10) {
+				window.gladsdk = window.gladsdk || { cmd: [] };
+
+				gladsdk.cmd.push(function() {
+						gladsdk.defineAdSlot({
+							adUnitId: "p_stock",
+							adSlotElementId: "_SmartChannelTopBanner",
+							uct: "KR",
+							customParam: {
+								calp: 
+									
+									"domestic"
+									
+									
+									
+									
+									
+							},
+						});
+
+						gladsdk.addEventListener(gladsdk.event.AD_LOADED, function(ad) {
+							//console.log(gladsdk.event.AD_LOADED);
+						});
+						gladsdk.addEventListener(gladsdk.event.AD_CLICKED, function(ad) {
+							//console.log(gladsdk.event.AD_CLICKED);
+						});
+						gladsdk.addEventListener(gladsdk.event.AD_IMPRESSED, function(ad) {
+							//console.log(gladsdk.event.AD_IMPRESSED);
+						});
+						gladsdk.addEventListener(gladsdk.event.ERROR, function(ad, error) {
+							//TODO: 오류 로깅처리
+							//console.log(gladsdk.event.ERROR);
+						});
+					});
+			}
+		})();
+	</script>
+	
+
+	<link rel="shortcut icon" href="https://www.naver.com/favicon.ico" type="image/x-icon">
+	
+	<script type="text/javascript">
+    (function(){
+        var sUserAgent = navigator.userAgent;
+        if(/iPhone|iPad/.test(sUserAgent)){
+            document.write(
+                [
+					'<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://ssl.pstatic.net/static/nfinance/ico/2018_ios_120X120_iphone.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://ssl.pstatic.net/static/nfinance/ico/2018_ios_152x152_ipad.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="167x167" href="https://ssl.pstatic.net/static/nfinance/ico/2018_ios_167x167_ipad_pro.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="180x180" href="https://ssl.pstatic.net/static/nfinance/ico/2018_ios_180x180_iphone.png" />'
+                ]
+                .join('\n')
+            );
+        }
+
+        if(/Android/.test(sUserAgent)){
+            document.write(
+                [
+                    '<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://ssl.pstatic.net/static/nfinance/ico/2018_android_72x72_xxxhpdi.png" />',
+                    '<link rel="apple-touch-icon-precomposed" sizes="96x96" href="https://ssl.pstatic.net/static/nfinance/ico/2018_android_96x96_xxxhpdi.png" />',
+                    '<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://ssl.pstatic.net/static/nfinance/ico/2018_android_144x144_xxxhpdi.png" />',
+                    '<link rel="apple-touch-icon-precomposed" sizes="192x192" href="https://ssl.pstatic.net/static/nfinance/ico/2018_android_192x192_xxxhpdi.png" />'
+				]
+				.join('\n')
+			);
+        }
+    })();
+    </script>
+<style id="gnb_style" type="text/css">@charset "UTF-8";
+/* NTS UIT Development Office YJH 140717 */
+a.gnb_my, .gnb_icon, #gnb .gnb_my_interface, .gnb_my_li .gnb_my_content .gnb_membership, #gnb .gnb_my_membership, #gnb .gnb_ico_num .gnb_ico_new, #gnb .gnb_ico_num .gnb_ico_new .gnb_count, .gnb_lst .ico_arrow, a.gnb_my .filter_mask, .gnb_my_lyr, .gnb_my_li .gnb_my_content .gnb_mask, .gnb_my_li .gnb_my_content .gnb_change, .gnb_my_li .gnb_my_content .gnb_edit_lst li, .gnb_my_li .gnb_my_content .gnb_pay_check em, #gnb .gnb_my_li .gnb_my_community a.gnb_pay span, .gnb_notice_li .gnb_notice_lyr, .gnb_notice_li .svc_list .gnb_ico_mail, .gnb_notice_li .svc_list .gnb_btn_remove span, .gnb_notice_li .svc_list .gnb_btn_remove i, .gnb_notice_li .gnb_error .gnb_ico_error, .gnb_ly_alert .gnb_btn_close i, .gnb_first_visit, .gnb_search_box, .gnb_search_box .gnb_del_txt, .gnb_svc_more .gnb_svc_lstwrp li.gnb_event em.ic_gnb_new, .gnb_svc_more .svc_btnwrp button { background: url(https://ssl.pstatic.net/static/common/gnb/one/sp_gnb_v14.png) no-repeat -999px -999px;		background: url(https://ssl.pstatic.net/static/common/gnb/one/sp_gnb_v15.png?v=2006) no-repeat -999px -999px; /* background: url(../img/sp_gnb_v15.png) no-repeat -999px -999px; */}
+.gnb_favorite_area, .gnb_search_area, .gnb_banner, .gnb_linkwrp{background:url(https://ssl.pstatic.net/static/common/gnb/2014/bg_svclyr2_v2.png) no-repeat -999px -999px}
+#gnb .gnb_my_li .gnb_my_community a, .gnb_notice_li .gnb_notice_all, a.gnb_service_all, .gnb_svc_more .svc_btns{display:block;height:38px;border-top:1px solid #ebebeb;background-color:#f8f8f8;text-align:center;font-weight:bold;text-decoration:none;letter-spacing:-1px;line-height:38px}
+#gnb .gnb_my_li .gnb_my_community a:visited, .gnb_notice_li .gnb_notice_all:visited, a.gnb_service_all:visited, .gnb_svc_more .svc_btns:visited{color:#444}
+.gnb_login_li, .gnb_my_li, .gnb_notice_li, .mail_li, .gnb_service_li{float:left;margin-right:2px;overflow:visible}
+.gnb_login_li a, .gnb_my_li a, .gnb_notice_li a, .mail_li a, .gnb_service_li a{position:relative;z-index:100}
+a.gnb_my, .gnb_icon{position:relative}
+#gnb{position:relative;z-index:2147483646;font-family:'나눔고딕',NanumGothic,'돋움',Dotum,'Apple SD Gothic Neo',Helvetica,Sans-serif !important;color:#444;font-size:12px;letter-spacing:0 !important;line-height:normal !important;text-align:left !important}
+#gnb div, #gnb p, #gnb span, #gnb em, #gnb strong, #gnb h1, #gnb h2, #gnb h3, #gnb h4, #gnb h5, #gnb h6, #gnb ul, #gnb ol, #gnb li, #gnb dl, #gnb dt, #gnb dd, #gnb table, #gnb th, #gnb td, #gnb form, #gnb fieldset, #gnb legend, #gnb input, #gnb textarea, #gnb button, #gnb label{font-family:'나눔고딕',NanumGothic,'돋움',Dotum,'Apple SD Gothic Neo',Helvetica,Sans-serif !important}
+#gnb a, #gnb label, #gnb button{cursor:pointer}
+#gnb a, #gnb a:visited, #gnb a:active, #gnb a:focus{color:#444}
+#gnb a:hover{color:#444;text-decoration:underline}
+#gnb input::-ms-clear{display:none}
+#gnb em{font-style:normal}
+#gnb ul{list-style:none}
+#gnb .blind{display:block;overflow:hidden;position:absolute;top:-1000em;left:0;width:1px;height:1px;margin:0;padding:0;font-size:0;line-height:0}
+#gnb .gnb_my_membership{padding: 0;display: block;width: 64px;height: 16px;background-position: -296px -359px;margin: 0;}
+#gnb .gnb_my_interface{padding:5px;position:absolute;top:12px;right:8px;display:block;width:17px;height:16px;background-position:-90px 5px}
+#gnb .gnb_my_interface:hover{background-position:-90px -20px}
+#gnb .gnb_my_interface:focus{background-position:-90px -20px}
+#gnb .gnb_pad_lyr{position:absolute}
+#gnb .gnb_ico_num{display:block;position:absolute;top:1px;width:40px;text-align:center}
+#gnb .gnb_ico_num .gnb_ico_new{height:15px;display:inline-block;background-position:-331px 0;zoom:1}
+#gnb .gnb_ico_num .gnb_ico_new .gnb_count{position:relative;top:0;right:-5px;height:15px;margin:0;padding:0 4px 0 1px;display:inline-block;*display:inline;vertical-align:top;background-position:100% 0;text-indent:-2px;font-family:tahoma !important;font-weight:bold;color:#fff;zoom:1}
+#gnb .gnb_ico_num .gnb_ico_new .plus{margin:1px -1px 0 2px;font-size:8px;display:inline-block;color:#fff;vertical-align:top}
+:root #gnb .gnb_pad_lyr{opacity:1 !important;/* background:#fff */}
+.gnb_lst{margin:0;padding:0;zoom:1}
+.gnb_lst:after{display:block;clear:both;content:''}
+.gnb_lst ul{margin:0;padding:0}
+.gnb_lst .ico_arrow{display:none;position:absolute;left:50%;top:27px;width:10px;height:8px;margin-left:-5px;background-position:-175px -10px}
+.gnb_lyr_opened .gnb_my_lyr, .gnb_lyr_opened .gnb_service_lyr, .gnb_lyr_opened .gnb_notice_lyr, .gnb_lyr_opened .ico_arrow{display:block !important}
+.gnb_login_li{height:23px;padding:5px 7px 0 0}
+.gnb_btn_login, .gnb_bg, .gnb_bdr{display:inline-block;width:46px;height:20px;font-size:12px}
+.gnb_btn_login{position:relative}
+.gnb_bg{background-color: #fff;opacity: 0.05;filter: alpha(opacity=5);}
+.gnb_bdr{position:absolute;top: -1px;left: -1px;width: 46px;height: 20px;border: 1px solid #000;opacity: 0.12;filter: alpha(opacity=12);}
+.gnb_txt{position:absolute;top:0;left:0;width:45px;height:20px;padding-left:1px;line-height:21px;color:#666;text-align:center}
+.gnb_btn_login:hover{text-decoration:none !important}
+.gnb_account .gnb_btn_login{width:54px;margin:-1px 0 0 8px;vertical-align:top}
+.gnb_account a.gnb_btn_login .gnb_txt {padding-left: 0;}
+.gnb_account .gnb_bdr{width:52px}
+.gnb_account .gnb_txt{width:53px}
+.gnb_my_li{margin-right:7px}
+.gnb_my_namebox{padding:2px 9px 0 0;background-repeat:no-repeat;background-position:100% 50%;zoom:1}
+.gnb_my_namebox:after{display:block;clear:both;content:''}
+a.gnb_my{float:left;display:block;font-size:12px;vertical-align:middle}
+a.gnb_my .filter_mask {position: absolute; top: -1px; left: -1px; z-index: 1; width: 28px; height: 28px; background-position: -260px -60px;}
+a.gnb_my img{vertical-align:top;border-radius:16px}
+a.gnb_my .gnb_name{margin-right:-1px;padding-left:5px;display:inline-block;height:28px;line-height:28px;vertical-align:top;font-size:11px;color:#444}
+a.gnb_my:visited{color:#444}
+a.gnb_my:hover, a.gnb_my:active, a.gnb_my:visited, a.gnb_my:focus{text-decoration:none !important}
+a.gnb_my:hover .gnb_name{text-decoration:underline}
+a.gnb_my .ico_arrow{top:25px;margin-left:8px}
+.gnb_my_namebox a.gnb_emp{float:left;display:inline-block;height:28px;margin-left:3px;line-height:28px;font-size:11px;color:#777 !important}
+.gnb_my_lyr{display:none;position:absolute;top:26px;right:-8px;padding:9px 5px 4px 4px;width:316px;height:155px;background-position:-2px -1310px;z-index:10}
+.gnb_my_lyr.gnb_groupid{height:144px;background-position:-2px -1500px}
+.gnb_my_lyr.gnb_groupid .gnb_my_content{height:80px}
+.gnb_my_lyr.gnb_groupid.gnb_longid1{height:144px;/*background-position:-2px -1664px*/}
+.gnb_my_lyr.gnb_groupid.gnb_longid2{height:144px;background-position:-2px -1828px}
+.gnb_my_lyr.gnb_longid1{/*width:318px;*/ /*background-position:-2px -1118px;*/}
+.gnb_my_lyr.gnb_longid2{width:348px;background-position:-2px -926px}
+.gnb_my_li .gnb_my_content{zoom:1;height:91px;padding:15px 0 10px 15px}
+.gnb_my_li .gnb_my_content:after{display:block;clear:both;content:''}
+.gnb_my_li .gnb_my_content .gnb_img_area{float:left;position:relative;display:block;width:80px;margin: 1px 0 0 1px;}
+.gnb_my_li .gnb_my_content .gnb_img_area img{vertical-align:top}
+.gnb_my_li .gnb_my_content .gnb_mask{position:absolute;top:0;left:0;display:block;width:80px;height:80px;background-position:-70px -60px}
+.gnb_my_li .gnb_my_content .gnb_change{position:absolute;bottom:-2px;left:-2px;display:block;width:28px;height:28px;background-position:-140px 0px}
+.gnb_my_li .gnb_my_content .gnb_change:hover{background-position:-140px -30px}
+.gnb_my_li .gnb_my_content .gnb_txt_area{float:left;width:210px;margin:0 0 0 10px}
+.gnb_longid1 .gnb_my_content .gnb_txt_area{/* width:210px; */}
+.gnb_longid2 .gnb_my_content .gnb_txt_area{width:235px}
+.gnb_my_li .gnb_my_content .gnb_account{margin-bottom:3px 0 1px;font-size:0}
+.gnb_my_li .gnb_my_content .gnb_name{color:#666;font-size:14px}
+.gnb_my_li .gnb_my_content .gnb_name a{display:inline-block;vertical-align:top;font-weight:bold;color:#222 !important}
+.gnb_my_li .gnb_my_content a.gnb_mail_address{margin-left:1px;font-family:tahoma;color:#666 !important;font-size:12px}
+.gnb_my_li .gnb_my_content .gnb_edit_lst{zoom:1;margin-top:7px !important}
+.gnb_my_li .gnb_my_content .gnb_edit_lst:after{display:block;clear:both;content:''}
+.gnb_my_li .gnb_my_content .gnb_edit_lst li{float:left;padding-left:6px;margin-left:5px;background-position:-290px -25px}
+.gnb_my_li .gnb_my_content .gnb_edit_lst li.gnb_info{padding-left:0;margin-left:0;background:none}
+.gnb_my_li .gnb_my_content .gnb_edit_lst a{color:#666 !important;letter-spacing:-1px}
+.gnb_my_li .gnb_my_content .gnb_membership {display: inline-block;margin-right: 5px;margin-left: 1px;padding-right: 8px;background-position: -287px -403px;}
+.gnb_my_li .gnb_my_content .gnb_pay_check{height:16px;margin:7px -4px 0 0 !important}
+@media screen and (min-width: 0\0) { .gnb_my_li .gnb_my_content .gnb_pay_check{margin-top:17px} }
+.gnb_my_li .gnb_my_content .gnb_pay_check em{display:inline-block;width:16px;height:16px;background-position:-300px -309px;margin:0 4px 0 0;overflow:hidden;font-size:0;line-height:0;vertical-align:top}
+.gnb_my_li .gnb_my_content .gnb_pay_check a{font-size:14px;letter-spacing:-1px;line-height:16px;vertical-align:top}
+.gnb_my_li .gnb_my_content .gnb_pay_check span{font-weight: bold;}
+.gnb_my_li .gnb_my_content .gnb_pay_check strong{font-family:tahoma;letter-spacing:0;vertical-align:top;}
+.gnb_my_li .gnb_my_content .gnb_pay_check a, .gnb_my_li .gnb_my_content .gnb_pay_check span, .gnb_my_li .gnb_my_content .gnb_pay_check strong{font-size:12px;color:#222 !important}
+#gnb .gnb_my_li .gnb_my_community{clear:both;zoom:1}
+#gnb .gnb_my_li .gnb_my_community:after{display:block;clear:both;content:''}
+#gnb .gnb_my_li .gnb_my_community a{float:left;width:106px;margin-right: 0;border-right:1px solid #ebebeb}
+#gnb .gnb_my_li .gnb_my_community a.gnb_pay{width:102px;border-right:0;line-height:0}
+#gnb .gnb_my_li .gnb_my_community a.gnb_pay span{display:inline-block;width:41px;height:16px;background-position:-300px -334px;margin:11px auto 0;font-size:0;line-height:0}
+#gnb .gnb_my_li .gnb_my_community a:active, #gnb .gnb_my_li .gnb_my_community a:focus, #gnb .gnb_my_li .gnb_my_community a:visited{text-decoration:none !important}
+#gnb .gnb_my_li .gnb_my_community a:hover{text-decoration:underline !important}
+#gnb .gnb_my_lyr.gnb_longid1 .gnb_my_community a{/*width:105px;*/}
+#gnb .gnb_my_lyr.gnb_longid1 .gnb_my_community a.gnb_pay{/* width:106px;*/}
+#gnb .gnb_my_lyr.gnb_longid2 .gnb_my_community a{width:115px}
+#gnb .gnb_my_lyr.gnb_longid2 .gnb_my_community a.gnb_pay{width:116px}
+#gnb.gnb_one .gnb_my_community a, #gnb.gnb_one_small .gnb_my_community a{margin-right: 0 !important;}
+.gnb_notice_li a.gnb_notice{display:block;width:15px;height:17px;padding:7px 9px 4px;text-decoration:none !important}
+.gnb_notice_li a.gnb_notice .gnb_ico_num{left:1px;top:0}
+.gnb_notice_li a.gnb_notice .gnb_icon{display:block;width:15px;height:17px;background-position:-3px -60px}
+.gnb_notice_li a.gnb_notice:hover .gnb_icon{background-position:-38px -60px;text-decoration:none !important}
+.gnb_notice_li .gnb_notice_lyr{display:none;position:absolute;top:26px;right:-7px;width:297px;height:330px;padding:9px 4px 4px;background-position:-2px -584px;z-index:10;overflow:hidden}
+.gnb_notice_li .svc_scroll{height:291px;overflow:scroll;overflow-x:hidden;position:relative;zoom:1}
+.gnb_notice_li .svc_panel{width:100%;height:330px;overflow:hidden}
+.gnb_notice_li .svc_head{position:relative;height:36px;padding-left:15px;line-height:20px;border-bottom:1px solid #eaeaea;zoom:1}
+.gnb_notice_li .svc_head .gnb_tit{color:#6b6d70;margin-right:1px;line-height:36px}
+.gnb_notice_li .svc_head .task_right{position:absolute;right:8px;top:8px;font-size:0}
+.gnb_notice_li .svc_head .task_right button{height:20px;padding:0 6px;margin-left:4px;border:1px solid #ddd;color:#888;background-color:#fff;font-family:'나눔고딕', NanumGothic;font-size:12px;letter-spacing:-1px;line-height:18px;*line-height:16px;overflow:visible}
+.gnb_notice_li .svc_list .gnb_btn_remove i, .gnb_notice_li .svc_list .gnb_btn_remove span, .gnb_notice_li .svc_noti .gnb_ico_mail, .gnb_notice_li .svc_blank .svc_msg_box, .gnb_notice_li .svc_blank .gnb_v_guide{display:inline-block;*display:inline;*zoom:1}
+.gnb_notice_li .svc_list{margin-top:-1px}
+.gnb_notice_li .svc_list li{position:relative;padding:7px 34px 7px 15px;border-top:1px solid #eaeaea;line-height:18px}
+.gnb_notice_li .svc_list .gnb_new{background:#ffffd8}
+.gnb_notice_li .svc_list .gnb_unread .gnb_subject{color:#444}
+.gnb_notice_li .svc_list .gnb_unread .d_cnt{color:#ff630e}
+.gnb_notice_li .svc_list .gnb_unread a:hover .gnb_subject, .gnb_notice_li .svc_list .gnb_unread .gnb_unread a:hover .d_cnt{color:#390}
+.gnb_notice_li .svc_list .gnb_unread .svc_name{color:#444}
+.gnb_notice_li .svc_list a.gnb_list_cover{text-decoration:none !important;display:block;position:relative;zoom:1}
+.gnb_notice_li .svc_list a:hover .gnb_subject{text-decoration:underline}
+.gnb_notice_li .svc_list .gnb_subject{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;color:#adadad}
+.gnb_notice_li .svc_list .d_cnt{font-family:tahoma;font-size:10px}
+.gnb_notice_li .svc_list .gnb_info{color:#adadad}
+.gnb_notice_li .svc_list .svc_name{margin-right:3px;color:#adadad}
+.gnb_notice_li .svc_list .cchr{margin-right:3px}
+.gnb_notice_li .svc_list .dona{position:absolute;top:8px;right:34px;text-decoration:underline}
+.gnb_notice_li .svc_list .dona a{color:#adadad}
+.gnb_notice_li .svc_list .dona a:hover{color:#390}
+.gnb_notice_li .svc_list .gnb_ico_mail{width:14px;height:15px;font-size:0;line-height:0;color:#fff;vertical-align:top}
+.gnb_notice_li .svc_list .gnb_ico_mail.gnb_yes{background-position:-245px -17px}
+.gnb_notice_li .svc_list .gnb_ico_mail.gnb_no{background-position:-245px 4px}
+.gnb_notice_li .svc_list .gnb_btn_remove{position:absolute;right:4px;top:50%;z-index:100;margin-top:-13px;padding:10px;line-height:6px;font-size:0;background:none !important;border:0 !important}
+.gnb_notice_li .svc_list .gnb_btn_remove span, .gnb_notice_li .svc_list .gnb_btn_remove i{display:block !important;width:7px;height:7px;font-size:0;line-height:0;color:transparent;white-space:nowrap;overflow:hidden;vertical-align:top;background-position:-175px 0}
+.gnb_notice_li .svc_blank{position:absolute;top:104px;left:0;width:100%;white-space:nowrap;height:100px;font-size:0;text-align:center}
+.gnb_notice_li .svc_blank .svc_msg_box{white-space:normal;font-size:12px;width:100%}
+.gnb_notice_li .svc_blank .gnb_tit{display:block;color:#2f3743;font-size:14px;margin:0 0 15px}
+.gnb_notice_li .svc_blank .gnb_tit strong{font-weight:normal;color:#390}
+.gnb_notice_li .svc_blank .gnb_desc{line-height:19px;color:#2f3743;margin-bottom:7px}
+.gnb_notice_li .svc_blank .gnb_desc a, .gnb_notice_li .svc_blank .gnb_link{color:#390;text-decoration:underline}
+.gnb_notice_li .svc_blank .gnb_v_guide{vertical-align:middle;height:100%;width:0}
+.gnb_notice_li .svc_blank .gnb_link_wrap{text-align:center}
+.gnb_notice_li .svc_blank .gnb_link_wrap .gnb_link{display:block;width:40px;margin:0 auto !important;text-align:center}
+.gnb_notice_li .svc_loading{background:url(https://ssl.pstatic.net/static/www/2014/loading.gif) no-repeat #fff center center;position:absolute;top:33px;left:0;width:100%;height:245px}
+.gnb_notice_li .gnb_error{position:absolute;top:81px;left:2px;width:100%;color:#444;text-align:center}
+.gnb_notice_li .gnb_error .gnb_ico_error{display:inline-block;width:57px;height:57px;background-position:-280px -190px}
+.gnb_notice_li .gnb_error .gnb_tit{font-size:14px;margin:15px 0 11px}
+.gnb_notice_li .gnb_error .gnb_desc{margin-bottom:13px;line-height:18px}
+.gnb_notice_li .gnb_error .gnb_link{text-decoration:underline}
+.gnb_ly_alert{position:absolute;top:110px;left:13px;background-color:#fff;border:1px solid #b7b9bc;width:260px;padding:34px 0 20px;zoom:1;z-index:100}
+.gnb_ly_alert .gnb_msg{text-align:center;line-height:17px;margin-bottom:14px;color:#2f3743}
+.gnb_.ly_alert .gnb_btn_close{position:absolute;right:2px;top:0;*overflow:visible}
+.gnb_ly_alert .gnb_btns{text-align:center}
+.gnb_ly_alert .gnb_btns button{height:27px;line-height:27px;*line-height:22px;font-weight:bold;font-size:12px;padding:0 8px;color:#2f3743;border:1px solid #ddd;background-color:white}
+.gnb_ly_alert .gnb_btns button:first-child{margin-right:4px}
+.gnb_ly_alert .gnb_btn_close{position:absolute;right:2px;top:0;width:35px;border:0;background:none;cursor:pointer;border-radius:0;padding:10px}
+.gnb_ly_alert .gnb_btn_close i{display:block;width:15px;height:15px;font:0/0 a;color:transparent;white-space:nowrap;overflow:hidden;vertical-align:top;background-position:-240px -60px}
+.mail_li a.gnb_mail{display:block;width:20px;height:15px;padding:7px 9px 6px;text-decoration:none !important}
+.mail_li a.gnb_mail .gnb_icon{display:block;width:20px;height:15px;background-position:0px -95px}
+.mail_li a.gnb_mail:hover .gnb_icon{background-position:-35px -95px;text-decoration:none !important}
+.mail_li .gnb_ico_num{left:6px;top:0}
+.gnb_service_li{margin-right:0}
+.gnb_service_li a.gnb_service{display:block;width:16px;height:16px;padding:7px 9px 5px}
+.gnb_service_li a.gnb_service .gnb_icon{display:block;width:16px;height:16px;background-position:-2px -130px}
+.gnb_service_li a.gnb_service:hover .gnb_icon{background-position:-37px -130px;text-decoration:none !important}
+.gnb_service_li .gnb_service_lyr{display:none;position:absolute;top:27px;right:-7px;z-index:10}
+.gnb_favorite_search{width:301px;letter-spacing:-1px}
+.gnb_response .gnb_favorite_search{display:none}
+.gnb_favorite_area{height:93px;padding:8px 4px 0;background-position:0 0}
+.gnb_favorite_lstwrp{position:relative;padding:22px 1px 15px 15px;border-bottom:1px solid #ebebeb}
+.gnb_favorite_lstwrp .gnb_my_interface{top:3px !important;right:3px !important}
+.gnb_first_visit{position:absolute;top:0;left:0;width:293px;height:92px;background-position:0 -310px;z-index:200}
+.gnb_first_visit .gnb_close{position:absolute;top:0;right:0;display:block;width:32px;height:32px}
+.gnb_favorite_lst{zoom:1}
+.gnb_favorite_lst:after{display:block;clear:both;content:''}
+.gnb_favorite_lst li{float:left;width:65px;text-align:center;white-space:nowrap}
+.gnb_favorite_lst a{display:inline-block;text-align:center;font-weight:bold}
+.gnb_favorite_lst .gnb_add a{display:block;test-align:center;}
+.gnb_favorite_lst .gnb_add a span.ic_add{display:block;width:36px;height:36px;margin:0 auto 4px;background-image: url(https://ssl.pstatic.net/static/common/gnb/one/sp_gnb_4b16e6.png);background-position: 0px 0px;background-repeat: no-repeat;width: 36px;height: 36px;vertical-align: top;}
+.gnb_favorite_lst .gnb_add a:hover span.ic_add{background-image: url(https://ssl.pstatic.net/static/common/gnb/one/sp_gnb_4b16e6.png);background-position: -42px 0px;background-repeat: no-repeat;width: 36px;height: 36px;vertical-align: top;}
+.gnb_favorite_lst img{display:block;margin:0 auto 4px;vertical-align:top}
+.gnb_search_area{position:relative;z-index:200;padding:18px 4px 17px;background-position:-301px 0;background-repeat:repeat-y}
+.gnb_search_box{position:relative;z-index:101;margin:0 12px 16px 0;padding-left:10px;display:block;width:270px;height:35px;background-position:10px -190px}
+.gnb_search_box.over{background-position:10px -230px}
+.gnb_search_box.fcs{background-position:10px -270px}
+.gnb_search_box.fcs input{width:200px;font-size:16px;font-weight:bold;color:#444;outline:0}
+.gnb_search_box input{float:left;display:block;width:210px;height:22px;margin-top:6px;padding-left:10px;font-family:'나눔고딕',NamumGothic;letter-spacing:-1px;color:#adadad;font-size:13px;border:0;line-height:22px;background:transparent}
+.gnb_search_box .gnb_del_txt{position:absolute;top:8px;right:32px;display:block;width:17px;height:17px;background-position:-190px 0px}
+.gnb_search_box .gnb_del_txt:hover{background-position:-190px -20px}
+.gnb_search_box .gnb_pop_input{position:absolute;top:34px;left:10px;width:268px;height:170px;*height:172px;border:1px solid #cbc5c5;border-top:0;background:#fff;overflow-x:hidden;overflow-y:scroll;z-index:110}
+.gnb_search_box .gnb_pop_lst{padding:4px 0 2px}
+.gnb_search_box .gnb_pop_lst a{display:block;padding:6px 0 6px 10px;font-weight:bold}
+.gnb_search_box .gnb_pop_lst .on{background-color:#f5f5f5}
+.gnb_search_lstwrp{zoom:1;height:118px;padding-left:12px}
+.gnb_search_lstwrp:after{display:block;clear:both;content:''}
+.gnb_search_lstwrp .gnb_search_lst{float:left;width:69px;border-left:1px solid #eaeaea}
+.gnb_search_lstwrp .gnb_search_lst.gnb_first{width:64px;border:0}
+.gnb_search_lstwrp li{padding:12px 0 0 8px}
+.gnb_search_lstwrp li.gnb_first{font-weight:bold;padding-top:0}
+.gnb_search_lstwrp li a{display:inline-block;vertical-align:top}
+.gnb_banner{height:47px;margin:0;padding:0 18px;background-position:-301px 0;background-repeat:repeat-y}
+.gnb_banner .gnb_service_event{display:inline-block;border-top:1px solid #ebebeb}
+.gnb_linkwrp{padding:0 4px 4px;background-position:-602px 0}
+a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.gnb_service_all:focus{text-decoration:none}
+.gnb_svc_more{display:none;position:absolute;top:4px;right:303px;width:589px;overflow:hidden;zoom:1;z-index:1000}
+.gnb_svc_more:after{display:block;clear:both;content:''}
+.gnb_response .gnb_svc_more{right:2px}
+.gnb_bg_top{height:6px;background:url(https://ssl.pstatic.net/static/common/gnb/2014/bg_svclyr1_v2.png) no-repeat}
+.gnb_bg_btm{position:relative;height:6px;background:url(https://ssl.pstatic.net/static/common/gnb/2014/bg_svclyr1_v2.png) no-repeat -1282px 0}
+.gnb_svc_more .gnb_svc_hd{position:relative;padding:0 18px 2px 23px;letter-spacing:-1px;background:url(https://ssl.pstatic.net/static/common/gnb/2014/bg_svclyr1_v2.png) repeat-y -641px 0}
+.gnb_svc_more .gnb_svc_hd .gnb_svc_tit{display:block;padding:12px 0 13px;border-bottom:1px solid #ebebeb;font-size:14px;color:#222}
+.gnb_svc_more .gnb_svc_hd .link{position:absolute;top:14px;right:19px;font-size:12px;color:#444}
+.gnb_svc_more .gnb_svc_hd .link a{color:#444 !important;line-height:16px !important}
+.gnb_svc_more .gnb_svc_lstwrp{position:relative;height:283px;overflow:hidden;padding:15px 15px 0 20px;letter-spacing:-1px;background:url(https://ssl.pstatic.net/static/common/gnb/2014/bg_svclyr1_v2.png) repeat-y -641px 0;zoom:1}
+.gnb_svc_more .gnb_svc_lstwrp:after{display:block;clear:both;content:''}
+.gnb_svc_more .gnb_svc_lstwrp li{height:15px;margin-bottom:5px;color:#6b6d70;white-space:nowrap;line-height:15px}
+.gnb_svc_more .gnb_svc_lstwrp li.gnb_event label{color:#444;font-weight:bold}
+.gnb_svc_more .gnb_svc_lstwrp li.gnb_event em.ic_gnb_new{display:inline-block;width:11px;height:11px;background-position:-215px 0px;margin:2px 0 0 4px;font-size:0;line-height:0;vertical-align:top}
+@media screen and (min-width: 0\0) { .gnb_svc_more .gnb_svc_lstwrp li.gnb_event em.ic{margin-top:3px} }
+.gnb_svc_more .gnb_svc_lstwrp .gnb_input_check{width:13px;height:13px;margin:2px 3px 0 3px;padding:0;vertical-align:top;-webkit-appearance:checkbox;}
+.gnb_svc_more .gnb_svc_lstwrp label{vertical-align:0px}
+.gnb_svc_more .gnb_svc_lstwrp .gnb_disabled strong{color:#a8acb0}
+.gnb_svc_more .gnb_svc_lstwrp .gnb_disabled li{color:#cbcbcb}
+.gnb_svc_more .gnb_svc_lst1{float:left;width:328px;height:280px}
+.gnb_svc_more .gnb_svc_lst1 ul{float:left;width:102px;min-height:260px;padding:5px 0 0 10px;border-left:1px solid #eee}
+.gnb_svc_more .gnb_svc_lst1 ul.gnb_first{padding-left:0;border:0}
+.gnb_svc_more .svc_lst2{float:left;position:relative;width:221px;border:1px solid #eee;background:#fbfbfb;zoom:1}
+.gnb_svc_more .svc_lst2:after{display:block;clear:both;content:''}
+.gnb_svc_more .svc_spc{float:left;position:relative;width:100px;min-height:254px;padding:9px 0 0 10px}
+.gnb_svc_more .svc_spc.gnb_first{border-right:1px solid #eee}
+.gnb_svc_more .svc_spc strong{height:20px;color:#2f3743;line-height:16px}
+.gnb_svc_more .svc_spc a:visited{color:#2f3743}
+.gnb_svc_more .svc_spc ul{padding:8px 0}
+.gnb_svc_more .svc_spc li{margin-bottom:0;padding-bottom:5px;color:#848689}
+.gnb_svc_more .svc_stroy{width:89px;margin-top:-5px;padding:12px 0 0;border-top:1px solid #eee}
+.gnb_svc_more .svc_btns{position:relative;height:33px;overflow:hidden;padding-top:5px;line-height:normal}
+.gnb_svc_more .svc_btnwrp{position:relative;*height:39px;background:url(https://ssl.pstatic.net/static/common/gnb/2014/bg_svclyr1_v2.png) repeat-y -641px 0;padding:0 2px 0 4px}
+.gnb_svc_more .svc_btnwrp button{display:inline-block;width:60px;height:25px;border:0;vertical-align:top}
+.gnb_svc_more .svc_btnwrp .gnb_save{background-position:0 -160px}
+.gnb_svc_more .svc_btnwrp .gnb_close{margin-left:1px;background-position:-65px -160px}
+.gnb_svc_more .svc_btnwrp .gnb_return{position:absolute;top:5px;left:15px;background-position:-130px -160px}
+.gnb_type2 .gnb_notice_li a.gnb_notice .gnb_icon{background-position:-155px -120px}
+.gnb_type2 .gnb_notice_li a.gnb_notice:hover .gnb_icon{background-position:-155px -140px}
+.gnb_type2 .gnb_service_li .gnb_service .gnb_icon{background-position:-200px -120px}
+.gnb_type2 .gnb_service_li .gnb_service:hover .gnb_icon{background-position:-200px -140px}
+.gnb_type2 .mail_li a.gnb_mail .gnb_icon{background-position:-175px -120px}
+.gnb_type2 .mail_li a.gnb_mail:hover .gnb_icon{background-position:-175px -140px}
+.gnb_dark .gnb_my_li .gnb_my .gnb_name, .gnb_dark .gnb_login_li .gnb_btn_login .gnb_txt{color:#fff}
+.gnb_dark .gnb_notice_li a.gnb_notice .gnb_icon{background-position:-220px -140px}
+.gnb_dark .gnb_notice_li a.gnb_notice:hover .gnb_icon{background-position:-220px -120px}
+.gnb_dark .mail_li a.gnb_mail .gnb_icon{background-position:-238px -141px}
+.gnb_dark .mail_li a.gnb_mail:hover .gnb_icon{background-position:-238px -121px}
+.gnb_dark .gnb_service_li .gnb_service .gnb_icon{background-position:-261px -140px}
+.gnb_dark .gnb_service_li .gnb_service:hover .gnb_icon{background-position:-261px -120px}
+.gnb_dark_type2 .gnb_my_li .gnb_my .gnb_name, .gnb_dark_type2 .gnb_login_li .gnb_btn_login .gnb_txt{color:#fff}
+.gnb_dark_type2 .gnb_notice_li a.gnb_notice .gnb_icon{background-position:-220px -120px}
+.gnb_dark_type2 .gnb_notice_li a.gnb_notice:hover .gnb_icon{background-position:-220px -140px}
+.gnb_dark_type2 .mail_li a.gnb_mail .gnb_icon{background-position:-238px -121px}
+.gnb_dark_type2 .mail_li a.gnb_mail:hover .gnb_icon{background-position:-238px -141px}
+.gnb_dark_type2 .gnb_service_li .gnb_service .gnb_icon{background-position:-261px -120px}
+.gnb_dark_type2 .gnb_service_li .gnb_service:hover .gnb_icon{background-position:-261px -140px;}
+.gnb_dark .gnb_notice_li a.gnb_notice, .gnb_dark_type2 .gnb_notice_li a.gnb_notice {width: 17px;height: 19px;padding: 6px 8px 3px;}
+.gnb_dark .gnb_notice_li a.gnb_notice .gnb_icon, .gnb_dark_type2 .gnb_notice_li a.gnb_notice .gnb_icon {width: 17px;height: 19px;}
+.gnb_dark .mail_li a.gnb_mail, .gnb_dark_type2 .mail_li a.gnb_mail {width: 22px;height: 16px;padding: 7px 8px 4px;}
+.gnb_dark .mail_li a.gnb_mail .gnb_icon, .gnb_dark_type2 .mail_li a.gnb_mail .gnb_icon {width: 22px;height: 16px;}
+.gnb_dark .gnb_service_li a.gnb_service, .gnb_dark_type2 .gnb_service_li a.gnb_service {width: 18px;height: 18px;padding: 6px 8px 4px;}
+.gnb_dark .gnb_service_li .gnb_service .gnb_icon, .gnb_dark_type2 .gnb_service_li .gnb_service .gnb_icon {width: 18px;height: 18px;}
+#gnb.gnb_one .gnb_my_li .gnb_my .gnb_name, #gnb.gnb_one_small .gnb_my_li .gnb_my .gnb_name, #gnb.gnb_one .gnb_login_li .gnb_btn_login .gnb_txt, #gnb.gnb_one_small .gnb_login_li .gnb_btn_login .gnb_txt{color:#fff}
+#gnb.gnb_one .gnb_login_li, #gnb.gnb_one_small .gnb_login_li {height: 28px;}
+#gnb.gnb_one .gnb_login_li .gnb_btn_login, #gnb.gnb_one_small .gnb_login_li .gnb_btn_login, #gnb.gnb_one .gnb_login_li .gnb_bg, #gnb.gnb_one_small .gnb_login_li .gnb_bg, #gnb.gnb_one .gnb_login_li .gnb_bdr, #gnb.gnb_one_small .gnb_login_li .gnb_bdr, #gnb.gnb_one .gnb_login_li .gnb_txt, #gnb.gnb_one_small .gnb_login_li .gnb_txt {width: 53px;height: 23px;}
+#gnb.gnb_one .gnb_login_li .gnb_btn_login .gnb_txt, #gnb.gnb_one_small .gnb_login_li .gnb_btn_login .gnb_txt {top: -1px;width: 53px;height: 23px;line-height: 28px;font-size: 11px;}
+#gnb.gnb_one .gnb_login_li, #gnb.gnb_one_small .gnb_login_li, #gnb.gnb_one .gnb_my_li, #gnb.gnb_one_small .gnb_my_li, #gnb.gnb_one .gnb_notice_li, #gnb.gnb_one_small .gnb_notice_li, #gnb.gnb_one .mail_li, #gnb.gnb_one_small .mail_li, #gnb.gnb_one .gnb_service_li, #gnb.gnb_one_small .gnb_service_li{margin-right: 0;margin-left: 0; background: url(https://ssl.pstatic.net/static/common/gnb/bg_one_line.png) repeat-y right 0;}
+#gnb.gnb_one .gnb_login_li a, #gnb.gnb_one_small .gnb_login_li a, #gnb.gnb_one .gnb_my_li a, #gnb.gnb_one_small .gnb_my_li a, #gnb.gnb_one .gnb_notice_li a, #gnb.gnb_one_small .gnb_notice_li a, #gnb.gnb_one .mail_li a, #gnb.gnb_one_small .mail_li a, #gnb.gnb_one .gnb_service_li a, #gnb.gnb_one_small .gnb_service_li a {margin-right: 1px;}
+#gnb.gnb_one .gnb_login_li.hover .gnb_service, #gnb.gnb_one_small .gnb_login_li.hover .gnb_service, #gnb.gnb_one .gnb_login_li.hover .gnb_notice, #gnb.gnb_one_small .gnb_login_li.hover .gnb_notice, #gnb.gnb_one .gnb_login_li.hover .gnb_mail, #gnb.gnb_one_small .gnb_login_li.hover .gnb_mail, #gnb.gnb_one .gnb_login_li.hover .gnb_service, #gnb.gnb_one_small .gnb_login_li.hover .gnb_service, #gnb.gnb_one .gnb_my_li.hover .gnb_service, #gnb.gnb_one_small .gnb_my_li.hover .gnb_service, #gnb.gnb_one .gnb_my_li.hover .gnb_notice, #gnb.gnb_one_small .gnb_my_li.hover .gnb_notice, #gnb.gnb_one .gnb_my_li.hover .gnb_mail, #gnb.gnb_one_small .gnb_my_li.hover .gnb_mail, #gnb.gnb_one .gnb_my_li.hover .gnb_service, #gnb.gnb_one_small .gnb_my_li.hover .gnb_service, #gnb.gnb_one .gnb_notice_li.hover .gnb_service, #gnb.gnb_one_small .gnb_notice_li.hover .gnb_service, #gnb.gnb_one .gnb_notice_li.hover .gnb_notice, #gnb.gnb_one_small .gnb_notice_li.hover .gnb_notice, #gnb.gnb_one .gnb_notice_li.hover .gnb_mail, #gnb.gnb_one_small .gnb_notice_li.hover .gnb_mail, #gnb.gnb_one .gnb_notice_li.hover .gnb_service, #gnb.gnb_one_small .gnb_notice_li.hover .gnb_service, #gnb.gnb_one .mail_li.hover .gnb_service, #gnb.gnb_one_small .mail_li.hover .gnb_service, #gnb.gnb_one .mail_li.hover .gnb_notice, #gnb.gnb_one_small .mail_li.hover .gnb_notice, #gnb.gnb_one .mail_li.hover .gnb_mail, #gnb.gnb_one_small .mail_li.hover .gnb_mail, #gnb.gnb_one .mail_li.hover .gnb_service, #gnb.gnb_one_small .mail_li.hover .gnb_service, #gnb.gnb_one .gnb_service_li.hover .gnb_service, #gnb.gnb_one_small .gnb_service_li.hover .gnb_service, #gnb.gnb_one .gnb_service_li.hover .gnb_notice, #gnb.gnb_one_small .gnb_service_li.hover .gnb_notice, #gnb.gnb_one .gnb_service_li.hover .gnb_mail, #gnb.gnb_one_small .gnb_service_li.hover .gnb_mail, #gnb.gnb_one .gnb_service_li.hover .gnb_service, #gnb.gnb_one_small .gnb_service_li.hover .gnb_service {background: url(https://ssl.pstatic.net/static/common/gnb/bg_one_hover.png) repeat 0 0;}
+#gnb.gnb_one .gnb_my_li .gnb_my .gnb_name, #gnb.gnb_one_small .gnb_my_li .gnb_my .gnb_name{margin:0 0 0 1px;}
+#gnb.gnb_one .gnb_notice_li a.gnb_notice, #gnb.gnb_one_small .gnb_notice_li a.gnb_notice{width:17px;height:19px}
+#gnb.gnb_one .gnb_notice_li a.gnb_notice .gnb_icon, #gnb.gnb_one_small .gnb_notice_li a.gnb_notice .gnb_icon{width:17px;height:19px;background-position:-284px -119px}
+#gnb.gnb_one .gnb_notice_li a.gnb_notice:hover .gnb_icon, #gnb.gnb_one_small .gnb_notice_li a.gnb_notice:hover .gnb_icon{background-position:-284px -119px}
+#gnb.gnb_one .mail_li a.gnb_mail, #gnb.gnb_one_small .mail_li a.gnb_mail{width:21px;height:17px}
+#gnb.gnb_one .mail_li a.gnb_mail .gnb_icon, #gnb.gnb_one_small .mail_li a.gnb_mail .gnb_icon{width:21px;height:17px;background-position:-302px -120px}
+#gnb.gnb_one .mail_li a.gnb_mail:hover .gnb_icon, #gnb.gnb_one_small .mail_li a.gnb_mail:hover .gnb_icon{background-position:-302px -120px}
+#gnb.gnb_one .gnb_service_li .gnb_service, #gnb.gnb_one_small .gnb_service_li .gnb_service{width:17px;height:17px}
+#gnb.gnb_one .gnb_service_li .gnb_service .gnb_icon, #gnb.gnb_one_small .gnb_service_li .gnb_service .gnb_icon{width:17px;height:17px;background-position:-324px -120px}
+#gnb.gnb_one .gnb_service_li .gnb_service:hover .gnb_icon, #gnb.gnb_one_small .gnb_service_li .gnb_service:hover .gnb_icon{background-position:-324px -120px}
+#gnb.gnb_one .gnb_my_lyr, #gnb.gnb_one_small .gnb_my_lyr, #gnb.gnb_one .gnb_notice_lyr, #gnb.gnb_one_small .gnb_notice_lyr, #gnb.gnb_one .gnb_service_lyr, #gnb.gnb_one_small .gnb_service_lyr {right: 7px;}
+#gnb.gnb_one .gnb_ico_num, #gnb.gnb_one_small .gnb_ico_num{width:34px;top:10px;right:3px;left:auto;vertical-align:top}
+#gnb.gnb_one .gnb_ico_num .gnb_ico_new, #gnb.gnb_one_small .gnb_ico_num .gnb_ico_new{vertical-align:top;height:13px;background-position:-332px -60px;}
+#gnb.gnb_one .gnb_ico_num .gnb_count, #gnb.gnb_one_small .gnb_ico_num .gnb_count {height: 13px;padding: 0 6px 0 2px;background-position: 100% -60px;font-size: 10px;font-weight: normal;}
+#gnb.gnb_one .gnb_ico_num .plus, #gnb.gnb_one_small .gnb_ico_num .plus{margin:1px 0 0 2px}
+#gnb.gnb_one .ico_arrow{top:48px}
+#gnb.gnb_one .gnb_my_lyr, #gnb.gnb_one .gnb_notice_lyr{top:47px}
+#gnb.gnb_one .gnb_service_lyr{top:48px;}
+#gnb.gnb_one .gnb_login_li{padding:16px 21px 10px 1px;}
+#gnb.gnb_one .gnb_my_li{padding:12px 20px 12px 2px}
+#gnb.gnb_one .gnb_my_li .ico_arrow{top:34px}
+#gnb.gnb_one .gnb_notice_li a.gnb_notice{padding:18px 19px 17px 19px}
+#gnb.gnb_one .mail_li a.gnb_mail{padding:19px 17px 18px 17px}
+#gnb.gnb_one .gnb_service_li .gnb_service{padding:19px 19px 18px 19px}
+#gnb.gnb_one_small .ico_arrow{top:33px}
+#gnb.gnb_one_small .gnb_my_lyr, #gnb.gnb_one_small .gnb_notice_lyr{top:32px}
+#gnb.gnb_one_small .gnb_service_lyr{top:33px}
+#gnb.gnb_one_small .gnb_login_li{padding:7px 12px 4px 2px}
+#gnb.gnb_one_small .gnb_my_li{padding:5px 20px 4px 2px}
+#gnb.gnb_one_small .gnb_my_li .ico_arrow{top:27px}
+#gnb.gnb_one_small .gnb_notice_li a.gnb_notice{padding:10px 11px 10px 12px}
+#gnb.gnb_one_small .mail_li a.gnb_mail{padding:11px 10px 11px 9px}
+#gnb.gnb_one_small .gnb_service_li .gnb_service{padding:11px 12px 11px 11px}
+#gnb.gnb_one_small .gnb_ico_num{top:5px;right:6px;width:24px}
+#gnb.gnb_one_flat .gnb_login_li,
+#gnb.gnb_one_flat .gnb_my_li,
+#gnb.gnb_one_flat .gnb_notice_li,
+#gnb.gnb_one_flat .mail_li,
+#gnb.gnb_one_flat .gnb_service_li {border-color: #e0e0e0;}
+#gnb.gnb_one_flat .gnb_notice_li.hover,
+#gnb.gnb_one_flat .mail_li.hover,
+#gnb.gnb_one_flat .gnb_service_li.hover {background-color: rgba(0, 0, 0, 0.04);}
+#gnb.gnb_one_flat .gnb_service_li .gnb_service .gnb_icon,
+#gnb.gnb_one_flat .gnb_service_li .gnb_service:hover .gnb_icon {background-image: url(https://ssl.pstatic.net/static/common/gnb/one/sp_gnb_4b16e6.png);background-position: -84px -24px;background-repeat: no-repeat; width: 16px;height: 16px;vertical-align: top; margin: 0 1px;}
+#gnb.gnb_one_flat .mail_li a.gnb_mail .gnb_icon,
+#gnb.gnb_one_flat .mail_li a.gnb_mail:hover .gnb_icon {background-image: url(https://ssl.pstatic.net/static/common/gnb/one/sp_gnb_4b16e6.png);background-position: 0px -42px;background-repeat: no-repeat;width: 20px;height: 16px;vertical-align: top;margin: 0 1px;}
+#gnb.gnb_one_flat .gnb_notice_li a.gnb_notice .gnb_icon,
+#gnb.gnb_one_flat .gnb_notice_li a.gnb_notice:hover .gnb_icon {background-image: url(https://ssl.pstatic.net/static/common/gnb/one/sp_gnb_4b16e6.png);background-position: -84px 0px;background-repeat: no-repeat;width: 16px;height: 18px;vertical-align: top;margin: 0 1px;}
+#gnb.gnb_one_flat .gnb_my_li .gnb_my .gnb_name,
+#gnb.gnb_one_flat .gnb_login_li .gnb_btn_login .gnb_txt {color: #666;}</style><script src="https://ssl.pstatic.net/static.gn/js/clickcrD.js" id="gnb_clickcrD" charset="utf-8"></script></head>
+
+
+
+
+<body onload="getGNB();">
+
+
+
+<script type="text/javascript">
+
+	var nclk_evt = 3;
+	nclk_do();
+</script>
+
+
+<script type="text/javascript">
+
+
+
+
+var nsc="finance.stock";
+
+
+
+
+
+var ccsrv="cc.naver.com";
+
+
+	
+	
+	var gnb_service='finance';
+	
+
+
+var gnb_logout=document.URL; //GNB에서 로그아웃 후 redirect 될 URL
+var gnb_searchbox='off'; //미니 검색창을 on 할지 off 할지. default는 off
+var gnb_shortnick='off'; //닉네임 말줄임(10자)을 on할지 off 할지. default는 off.
+
+
+var gnb_naverme_layer_open_callback = function(){
+	   var naverLayerSize = gnbNaverMeLayer.getLayerSize();
+		
+		var me_layers = document.getElementById("me_layers");
+		me_layers.width=naverLayerSize.width;
+		me_layers.height=naverLayerSize.height;};
+
+var gnb_naverme_layer_close_callback = function(){
+		
+			var me_layers = document.getElementById("me_layers");
+			me_layers.width="0";
+			me_layers.height="0";};
+</script>
+
+
+<div id="u_skip">
+	<a href="#menu" tabindex="1"><span>메인 메뉴로 바로가기</span></a>
+
+	
+	
+		<a href="#start" tabindex="2"><span>본문으로 바로가기</span></a>
+	
+
+</div>
+
+
+<div id="header">
+	<div class="snb_area">
+		<div class="snb_inner">
+			<div id="gnb_area">
+				<div id="gnb" class="gnb_one"><strong class="blind">사용자 링크</strong><ul class="gnb_lst" id="gnb_lst" style="display: block;"><li class="gnb_login_li" id="gnb_login_layer" style="display: inline-block;"><a class="gnb_btn_login" href="https://nid.naver.com/nidlogin.login" id="gnb_login_button"><span class="gnb_bg"></span><span class="gnb_bdr"></span><span class="gnb_txt">로그인</span></a></li><li class="gnb_my_li" id="gnb_my_layer" style="display:none"><div class="gnb_my_namebox" id="gnb_my_namebox" style="background-image: url(https://ssl.pstatic.net/static/common/gnb/2014/ico_arrow_wh.gif);"><a href="javascript:;" class="gnb_my" onclick="gnbUserLayer.clickToggle(); return false;"><img id="gnb_profile_img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF8PDw5ubm+vr6+/v76enp+Pj47e3t5+fn9/f37Ozs9PT08vLy7+/v6urq9fX15OTk/f39pqwodgAAAQNJREFUeNrs11EOgyAMgOEWUAF19f6n3cMeplJHoSZbsv4H+DIWaCNsNwcGGmiggQZ+D/Q5reuasr8H9ID0CsHfALpA74JTgwPSPnRK0Ac6FrwOXOjcogIdlTkNuDDgogGRAVEBDsQ19IMzC879ILAgGNgAZhbMP3RttonxJs1Lgea/sDYcyreHXjW+oPUHVid2MWC1K+A0sqsDW7CksGmlCNZoFt9pIfjYgY8bwMMexUENQuOtqYCxfHtT7AddYodDcp0gIPEh9IBxous+nBuaTis4Nw/OSLVwloN+JEmjGJR5FyIDRpIWZeAoBkcZGMRgkIEkz0D7GjXQQAMN/GvwKcAAEGGHJh0mmaAAAAAASUVORK5CYII='" width="26" height="26" alt="내 프로필 이미지"><span id="gnb_profile_filter_mask" class="filter_mask"></span> <span class="gnb_name" id="gnb_name1"></span><em class="blind">내정보 보기</em><span class="ico_arrow"></span></a><a href="#" class="gnb_emp" id="gnb_emp">(임직원혜택)</a></div><div class="gnb_my_lyr" id="gnb_my_lyr"><div class="gnb_my_content"><div class="gnb_img_area"><span class="gnb_mask"></span><img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRF8PDw5ubm+vr6+/v76enp+Pj47e3t5+fn9/f37Ozs9PT08vLy7+/v6urq9fX15OTk/f39pqwodgAAAQNJREFUeNrs11EOgyAMgOEWUAF19f6n3cMeplJHoSZbsv4H+DIWaCNsNwcGGmiggQZ+D/Q5reuasr8H9ID0CsHfALpA74JTgwPSPnRK0Ac6FrwOXOjcogIdlTkNuDDgogGRAVEBDsQ19IMzC879ILAgGNgAZhbMP3RttonxJs1Lgea/sDYcyreHXjW+oPUHVid2MWC1K+A0sqsDW7CksGmlCNZoFt9pIfjYgY8bwMMexUENQuOtqYCxfHtT7AddYodDcp0gIPEh9IBxous+nBuaTis4Nw/OSLVwloN+JEmjGJR5FyIDRpIWZeAoBkcZGMRgkIEkz0D7GjXQQAMN/GvwKcAAEGGHJh0mmaAAAAAASUVORK5CYII='" width="80" height="80" alt="프로필 이미지"><a href="https://nid.naver.com/user2/api/naverProfile?m=checkIdType" class="gnb_change"><span class="blind">프로필 사진 변경</span></a></div><div class="gnb_txt_area"><p class="gnb_account"><span class="gnb_name" id="gnb_name2"><a class="gnb_nick" href="https://nid.naver.com/user2/api/naverProfile?m=checkIdType">_</a>님</span><a class="gnb_btn_login" href="https://nid.naver.com/nidlogin.logout?returl=https%3A%2F%2Ffinance.naver.com%2Fsise%2Fsise_market_sum.naver" id="gnb_logout_button"><span class="gnb_bg"></span><span class="gnb_bdr"></span><span class="gnb_txt">로그아웃</span></a></p><a href="https://mail.naver.com" class="gnb_mail_address">@naver.com</a><ul class="gnb_edit_lst"><li class="gnb_info"><a href="https://nid.naver.com/user2/help/myInfo?menu=home">내정보</a></li><li class="gnb_secure" id="gnb_secure_lnk"><a href="https://nid.naver.com/user2/help/myInfo?m=viewSecurity&amp;menu=security">보안설정</a></li><li class="gnb_cert" id="gnb_cert_lnk"><a href="https://nid.naver.com/user2/eSign/v1/home/land">내인증서</a></li></ul><div class="gnb_pay_check" id="gnb_pay_check"><p class="gnb_membership" style="display: none;" id="gnb_membership"><a href="https://nid.naver.com/membership/my" class="gnb_my_membership"><i class="blind">네이버 멤버쉽</i></a></p><em>N Pay</em><a href="https://pay.naver.com" id="gnb_pay_point"><span style="display: none">내 페이포인트</span></a></div></div></div><div class="gnb_my_community"><a href="https://blog.naver.com/MyBlog.naver" class="gnb_blog">내 블로그</a><a href="https://section.cafe.naver.com" class="gnb_cafe">가입한 카페</a><a href="https://pay.naver.com" class="gnb_pay"><span>N Pay</span></a></div><a href="#" class="gnb_my_interface" style="display:none"><span class="blind">환경설정</span></a></div><iframe id="gnb_my_lyr_iframe" title="빈 프레임" class="gnb_pad_lyr" name="padding" width="0" height="0" scrolling="no" frameborder="0" style="top: 55px; right: 10px; width: 320px; height: 158px; display: none; opacity: 0;"></iframe></li><li class="gnb_notice_li" id="gnb_notice_layer" style="display:none"><a href="javascript:;" class="gnb_notice" onclick="gnbNaverMeLayer.clickToggle(); return false;"><span class="blind">알림</span><span class="gnb_icon"></span><em class="gnb_ico_num" id="gnb_me_menu" style="display:none"><span class="gnb_ico_new"><span class="gnb_count" id="gnb_me_count"></span></span></em><span class="ico_arrow"></span></a><div class="gnb_notice_lyr" id="gnb_notice_lyr"><div class="svc_noti svc_panel"><div class="svc_scroll"><div class="svc_head"><strong class="gnb_tit">전체 알림</strong><div class="task_right"><button onclick="gnbNaverMeLayer.deleteReadList(this, event);" id="gnb_btn_read_noti_del">읽은 알림 삭제</button><button onclick="gnbNaverMeLayer.showDeleteAlert();" id="gnb_btn_all_noti_del">모두 삭제</button></div></div><div class="svc_body" id="gnb_naverme_layer"></div></div><div class="gnb_ly_alert" id="gnb_ly_alert" style="display: none;"><p class="gnb_msg"><strong>알림을 모두 삭제하시겠습니까?</strong></p><div class="gnb_btns"><button id="ly_alert_confirm" onclick="gnbNaverMeLayer.deleteAllList(this, event);">확인</button><button onclick="gnbNaverMeLayer.hideDeleteAlert();">취소</button></div><button class="gnb_btn_close" onclick="gnbNaverMeLayer.hideDeleteAlert();"><i>레이어 닫기</i></button></div><a href="https://noti.naver.com/index.nhn" class="gnb_notice_all">내 알림 전체보기</a></div></div><iframe id="gnb_notice_lyr_iframe" title="빈 프레임" class="gnb_pad_lyr" name="padding" width="0" height="0" scrolling="no" frameborder="0" style="top: 55px; right: 10px; width: 299px; height: 332px; display: none; opacity: 0;"></iframe></li><li class="mail_li" id="gnb_mail_layer" style="display:none"><a href="https://mail.naver.com" class="gnb_mail"><span class="blind">메일</span><span class="gnb_icon"></span><em class="gnb_ico_num" id="gnb_mail_menu" style="display:none"><span class="gnb_ico_new"><span class="gnb_count" id="gnb_mail_count"></span></span></em></a></li><li class="gnb_service_li" id="gnb_service_layer" style="display: inline-block;"><a href="javascript:;" class="gnb_service" onclick="gnbMoreLayer.clickToggle(); return false;"><span class="blind">서비스 더보기</span><span class="gnb_icon"></span><span class="ico_arrow"></span></a><div class="gnb_service_lyr" id="gnb_service_lyr"><div class="gnb_favorite_search" id="gnb_favorite_search"><div class="gnb_favorite_area"><div class="gnb_favorite_lstwrp"><div class="gnb_first_visit" style="display:none"><span class="blind">나만의 즐겨찾기를 추가해 보세요!</span><a href="#" class="gnb_close"><span class="blind">닫기</span></a></div><strong class="blind">즐겨찾는 서비스</strong><ul class="gnb_favorite_lst" id="gnb_favorite_lst"><li class="gnb_add"><a href="#"><span class="ic_add"></span>추가</a></li><li class="gnb_add"><a href="#"><span class="ic_add"></span>추가</a></li><li class="gnb_add"><a href="#"><span class="ic_add"></span>추가</a></li><li class="gnb_add"><a href="#"><span class="ic_add"></span>추가</a></li></ul><a href="#" class="gnb_my_interface" onclick="gnbMoreLayer.clickToggleWhole(); return false;"><span class="blind">즐겨찾기 설정</span></a></div></div><div class="gnb_search_area"><div class="gnb_search_box" onmouseover="gnb_search.mouseOver(this);" onmouseout="gnb_search.mouseOut(this);"><input id="gnb_svc_search_input" type="text" title="서비스 검색" value="더 많은 서비스를 간편하게 시작하세요!" onfocus="gnb_search.clearInput(this);" onblur="gnb_search.resetInput(this);" onkeydown="gnb_search.keyDown(event);" onkeyup="gnb_search.keyUp(event);"><a href="#" class="gnb_del_txt" id="gnb_del_txt" style="display:none"><span class="blind">삭제</span></a><div class="gnb_pop_input" id="gnb_pop_input" tabindex="0" onfocus="gnb_search.searchPopOnMouse = true; return false;" onfocusout="gnb_search.searchPopOnMouse = false; return false;" onmouseover="gnb_search.searchPopOnMouse = true; return false;" onmouseout="gnb_search.searchPopOnMouse = false; return false;" style="display:none"><ul class="gnb_pop_lst"></ul></div></div><div id="gnb_search_lstwrp" class="gnb_search_lstwrp"><ul class="gnb_search_lst gnb_first"><li class="gnb_first"><a id="gnb_search_lst_first_item" href="https://cafe.naver.com/">카페</a></li><li><a href="https://news.naver.com/">뉴스</a></li><li><a href="https://map.naver.com/">지도</a></li><li><a href="https://sports.news.naver.com/">스포츠</a></li><li><a href="https://game.naver.com/">게임</a></li></ul><ul class="gnb_search_lst"><li class="gnb_first"><a href="https://section.blog.naver.com/">블로그</a></li><li><a href="https://post.naver.com/main.nhn">포스트</a></li><li><a href="https://dict.naver.com/">사전</a></li><li><a href="https://kin.naver.com/">지식iN</a></li><li><a href="https://n.weather.naver.com/">날씨</a></li></ul><ul class="gnb_search_lst"><li class="gnb_first"><a href="https://mail.naver.com/">메일</a></li><li><a href="https://stock.naver.com/">증권</a></li><li><a href="https://land.naver.com/">부동산</a></li><li><a href="https://vibe.naver.com/today/">VIBE</a></li><li><a href="https://book.naver.com">책</a></li></ul><ul class="gnb_search_lst"><li class="gnb_first"><a href="https://shopping.naver.com/">쇼핑</a></li><li><a href="https://comic.naver.com/">웹툰</a></li><li><a href="https://movie.naver.com/">영화</a></li><li><a href="https://mybox.naver.com/">MYBOX</a></li><li><a href="https://auto.naver.com/">자동차</a></li></ul></div></div><div class="gnb_banner"><a href="https://campaign.naver.com/npay/rediret/index.nhn" class="gnb_service_event"><img id="gnb_promo" alt="N페이, 이벤트 참여하면 포인트 적립!" width="265" height="47" src="https://ssl.pstatic.net/static/common/gnb/banner/promo_npay_200108.png"></a></div><div class="gnb_linkwrp"><a href="https://www.naver.com/more.html" class="gnb_service_all" id="gnb_service_all">전체 서비스 보기</a></div></div><div class="gnb_svc_more" id="gnb_svc_more" style=""><strong class="blind">네이버 주요 서비스</strong><div class="gnb_bg_top"></div><div class="gnb_svc_hd" id="gnb_svc_hd" tabindex="0"><strong class="gnb_svc_tit">바로가기 설정</strong><span class="link"><a href="https://www.naver.com/more.html">전체 서비스 보기</a></span></div><div class="gnb_svc_lstwrp"><div class="gnb_svc_lst1"><ul class="gnb_first"><li><input type="checkbox" id="nsvc_game" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_game">게임</label></li><li><input type="checkbox" id="nsvc_weather" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_weather">날씨</label></li><li><input type="checkbox" id="nsvc_shopping" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_shopping">네이버쇼핑</label></li><li><input type="checkbox" id="nsvc_navercast" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_navercast">네이버캐스트</label></li><li class="gnb_event"><input type="checkbox" id="nsvc_naverpay" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_naverpay">네이버페이<em class="ic_gnb_new">New</em></label></li><li><input type="checkbox" id="nsvc_mybox" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_mybox">네이버 MYBOX</label></li><li><input type="checkbox" id="nsvc_news" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_news">뉴스</label></li><li><input type="checkbox" id="nsvc_comic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_comic">웹툰</label></li><li><input type="checkbox" id="nsvc_memo" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_memo">메모</label></li><li><input type="checkbox" id="nsvc_mail" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_mail">메일</label></li><li><input type="checkbox" id="nsvc_music" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_music">뮤직</label></li><li><input type="checkbox" id="nsvc_land" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_land">부동산</label></li><li><input type="checkbox" id="nsvc_bookmark" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_bookmark">북마크</label></li></ul><ul class=""><li><input type="checkbox" id="nsvc_blog" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_blog">블로그</label></li><li><input type="checkbox" id="nsvc_dic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_dic">사전</label></li><li><input type="checkbox" id="nsvc_software" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_software">소프트웨어</label></li><li><input type="checkbox" id="nsvc_smartboard" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_smartboard">스마트보드</label></li><li><input type="checkbox" id="nsvc_sports" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_sports">스포츠</label></li><li><input type="checkbox" id="nsvc_series" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_series">시리즈</label></li><li><input type="checkbox" id="nsvc_serieson" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_serieson">시리즈on</label></li><li><input type="checkbox" id="nsvc_ya9" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_ya9">야구9단</label></li><li><input type="checkbox" id="nsvc_movie" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_movie">영화</label></li><li><input type="checkbox" id="nsvc_office" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_office">오피스</label></li><li><input type="checkbox" id="nsvc_novel" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_novel">웹소설</label></li><li><input type="checkbox" id="nsvc_auto" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_auto">자동차</label></li><li><input type="checkbox" id="nsvc_contact" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_contact">주소록</label></li></ul><ul class=""><li><input type="checkbox" id="nsvc_finance" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_finance">증권(금융)</label></li><li><input type="checkbox" id="nsvc_map" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_map">지도</label></li><li><input type="checkbox" id="nsvc_kin" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_kin">지식iN</label></li><li><input type="checkbox" id="nsvc_terms" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_terms">지식백과</label></li><li><input type="checkbox" id="nsvc_book" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_book">책</label></li><li><input type="checkbox" id="nsvc_cafe" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_cafe">카페</label></li><li><input type="checkbox" id="nsvc_calendar" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_calendar">캘린더</label></li><li><input type="checkbox" id="nsvc_navertv" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_navertv">네이버TV</label></li></ul></div><div class="svc_lst2"><div class="svc_spc gnb_first"><strong><a href="https://dict.naver.com/">어학사전</a></strong><ul class=""><li><input type="checkbox" id="nsvc_krdic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_krdic">국어사전</label></li><li><input type="checkbox" id="nsvc_endic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_endic">영어/영영사전</label></li><li><input type="checkbox" id="nsvc_hanja" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_hanja">한자사전</label></li><li><input type="checkbox" id="nsvc_jpdic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_jpdic">일어사전</label></li><li><input type="checkbox" id="nsvc_cndic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_cndic">중국어사전</label></li><li><input type="checkbox" id="nsvc_frdic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_frdic">프랑스어사전</label></li><li><input type="checkbox" id="nsvc_dedic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_dedic">독일어사전</label></li><li><input type="checkbox" id="nsvc_rudic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_rudic">러시아어사전</label></li><li><input type="checkbox" id="nsvc_vndic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_vndic">베트남어사전</label></li><li><input type="checkbox" id="nsvc_spdic" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_spdic">스페인어사전</label></li><li><input type="checkbox" id="nsvc_papago" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_papago">파파고</label></li></ul></div><div class="svc_spc"><strong>인기/신규서비스</strong><ul class=""><li><input type="checkbox" id="nsvc_grafolio" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_grafolio">그라폴리오</label></li><li><input type="checkbox" id="nsvc_post" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_post">포스트</label></li><li><input type="checkbox" id="nsvc_band" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_band">밴드</label></li><li><input type="checkbox" id="nsvc_line" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_line">라인</label></li><li class="gnb_event"><input type="checkbox" id="nsvc_vibe" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_vibe">VIBE<em class="ic_gnb_new">New</em></label></li><li><input type="checkbox" id="nsvc_pcontents" name="selmenu" class="gnb_input_check" value=""> <label for="nsvc_pcontents">프리미엄콘텐츠</label></li></ul></div></div></div><div class="svc_btnwrp"><div class="svc_btns"><button class="gnb_save" onclick="if(gnbFavorite.addService()){gnbMoreLayer.clickToggleWhole()} return false;"><strong class="blind">확인</strong></button><button class="gnb_close" onclick="gnbFavorite.cancel(); return false;"><span class="blind">취소</span></button><button class="gnb_return" onclick="gnbFavorite.resetService(); return false;"><span class="blind">초기 설정으로 변경</span></button></div></div><div class="gnb_bg_btm"></div></div></div><iframe id="gnb_service_lyr_iframe" title="빈 프레임" class="gnb_pad_lyr" name="padding" width="0" height="0" scrolling="no" frameborder="0" style="display: none; top: 55px; right: 311px; width: 585px; height: 385px; opacity: 0;"></iframe><iframe id="gnb_svc_more_iframe" title="빈 프레임" class="gnb_pad_lyr" name="padding" width="0" height="0" scrolling="no" frameborder="0" style="display: none; top: 55px; right: 10px; width: 295px; height: 385px; opacity: 0;"></iframe></li></ul>
+						
+					
+				</div>
+			</div>
+
+			<div class="sta">
+				<h1 class="logo"> <a href="https://www.naver.com/" class="logo_naver" onclick="clickcr(this, 'STA.naver', '', '', event);"><span class="blind">네이버</span></a>
+				<a href="/" class="logo_service" onclick="clickcr(this, 'STA.finance', '', '', event);"><span class="blind">금융</span></a> </h1>
+				<form name="search" action="/search/search.naver" method="get" onsubmit="return delayed_submit(this)" style="margin:0; padding:0;">
+				<fieldset>
+					<legend>검색</legend>
+					<div class="snb_search_box">
+						<div class="snb_search_box_sub">
+							<input id="stock_items" type="text" title="검색" name="query" value="종목명·지수명 입력" accesskey="s" class="snb_search_text snb_default" autocomplete="off">
+							<a id="nautocomplete" href="#" onclick="return false" class="btn_arrow"><span class="blind">자동완성 펼치기</span></a>
+						</div>
+						<div class="auto_area">
+							<h2 class="blind">자동완성</h2>
+							<div id="autoFrame" style="display: none;">
+								<div class="wrap" id="atcmp" style="display:none;">
+									<div class="wrap_in">
+										<div class="words">
+											<ul class="_resultBox">
+												<li>
+													<a href="#" onclick="clickcr(this, 'AUT.list', '', '', event); return false;" class="_au_real_list">
+														<span class="num _au_real_list">@code@</span>
+														<span class="_au_real_list">@txt@</span>
+														<span class="type _au_real_list">@market@</span>
+													</a>
+													<div style="display:none" class="_au_full">@full_txt@</div>
+													<div style="display:none" class="_au_code">@in_code@</div>
+													<div style="display:none" class="_au_name">@in_name@</div>
+													<div style="display:none" class="_au_link">@in_link@</div>
+													<div style="display:none" class="_au_market">@in_market@</div>
+												</li>
+											</ul>
+										</div>
+										<p class="func">
+											<span><a href="#" class="fire_event funoff" onclick="clickcr(this, 'AUT.x', '', '', event); smartSearch.unuse(); return false;">기능끄기</a></span>
+										</p>
+									</div>
+								</div>
+								<!-- 현재 자동완성 기능을 사용하고 계십니다 -->
+								<div class="wrap" id="atcmpIng" style="display:none;">
+									<div class="wrap_in">
+										<div class="words">
+											<p class="msg">
+												현재 자동완성 기능을 사용하고 계십니다.
+											</p>
+										</div>
+										<p class="func">
+											<span><a href="#" class="fire_event funoff" onclick="clickcr(this, 'AUT.x', '', '', event); smartSearch.unuse(); return false;">기능끄기</a></span>
+										</p>
+									</div>
+								</div>
+								<!--// 현재 자동완성 기능을 사용하고 계십니다 -->
+								<!-- 자동완성 기능이 활성화 -->
+								<div class="wrap" id="atcmpStart" style="display:none;">
+									<div class="wrap_in">
+										<div class="words">
+											<p class="msg">
+												자동완성 기능이 활성화되었습니다.
+											</p>
+										</div>
+										<p class="func">
+											<span><a href="#" class="fire_event funoff" onclick="clickcr(this, 'AUT.x', '', '', event); smartSearch.unuse(); return false;">기능끄기</a></span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button type="submit" class="snb_search_btn" onclick="clickcr(this, 'STA.search', '', '', event);" alt="검색"><span class="blind">검색</span></button>
+						<a href="#" target="_blank" class="snb_search_btn-total" onclick="itegrationSearch();clickcr(this, 'STA.nx', '', '', event);return false;">통합검색</a>
+					</div>
+				</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="lnb_area ">
+		<div class="lnb_inner">
+			<div id="menu">
+				<ul class="menu">
+					<li class="m1 first "><a href="/" onclick="clickcr(this, 'LNB.home', '', '', event);"><span class="tx">금융 홈</span></a></li>
+					<li class="m2 on"><a href="/sise/" onclick="clickcr(this, 'LNB.sise', '', '', event);"><span class="tx">국내증시</span></a></li>
+					<li class="m3 "><a href="/world/" onclick="clickcr(this, 'LNB.world', '', '', event);"><span class="tx">해외증시</span></a></li>
+					<li class="m4 "><a href="/marketindex/" onclick="clickcr(this, 'LNB.market', '', '', event);"><span class="tx">시장지표</span></a></li>
+					<li class="m6 "><a href="/research/" onclick="clickcr(this, 'LNB.research', '', '', event);"><span class="tx">리서치</span></a></li>
+					<li class="m7 "><a href="/news/"><span class="tx">뉴스</span></a></li>
+					<li class="m8 "><a href="/mystock/" onclick="clickcr(this, 'LNB.mystock', '', '', event);"><span class="tx">MY</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+
+	
+	<script type="text/JavaScript">
+		/* lcs 집계 */
+        ;(function(){
+            var eventType = "onpageshow" in window ? "pageshow" : "load";
+            jindo.$Fn(function(){
+                lcs_do();
+            }).attach(window, eventType);
+        })();
+
+		/* 검색 자동완성 [ 인자1 : 검색input의 ID, 인자2 : iframe 태그 ID ]   */
+		// AutoComplete 생성
+		var acDomain = "ac.finance.naver.com";
+        if (location.hostname.indexOf("staging-") > -1) {
+            acDomain = "staging-" + acDomain;
+        } else if (location.hostname.indexOf("dev-") > -1 || location.hostname.indexOf("localhost") > -1 || location.hostname.indexOf("local-") > -1) {
+			acDomain = "dev-" + acDomain;
+		}
+
+        var acUrl = "https://" + acDomain + "/ac";
+
+		smartSearch = new nhn.Autocomplete(
+			// InputManager 생성
+			new nhn.AcInputManager(jindo.$("stock_items")),
+			// DataManager 생성
+			new nhn.AcDataManager(acUrl, "jsonp", "get", {
+                    st: "111",
+                    r_lt : "111",
+                    q_enc : "euc-kr",
+                    r_enc : "euc-kr",
+                    frm: "stock"}),
+			// ViewManager 생성
+			new nhn.AcStockViewManager(jindo.$("autoFrame"), jindo.$("nautocomplete"), {
+                                        strMax: 200,
+                                        listMax: [7, 2, 2],
+                                        aRedirectUrl : [
+                            			"https://finance.naver.com",
+                            			"https://finance.naver.com",
+                            			"https://finance.naver.com"]}),
+			// Autocomplete Option
+            {formId:"search", cookieDomain:location.hostname, cookieName:"NaverCommonStock"});
+
+			smartSearch.attach({
+	            onFocus: function () {
+	                var weInput = jindo.$Element('stock_items');
+	                if (weInput && weInput.hasClass("snb_default")) {
+	                        weInput.text("");
+	                        weInput.removeClass('snb_default');
+	                }
+	            }
+	        });
+
+		/* 통합검색  start ----->  */
+		//document.domain = 'naver.com';
+		var sSearchHintText = '종목명·지수명·환율명·원자재명 입력';
+		function itegrationSearch() {
+			var query = jindo.$('stock_items').value;
+
+			if ( query == ''  || encodeURIComponent(query) == encodeURIComponent(sSearchHintText))
+			{
+				alert ( '검색어를 입력해 주세요.' );
+				return;
+			}
+
+            var url = location.protocol + "//search.naver.com/search.naver?sm=sta_hty.finance&where=nexearch&ie=UTF8&query=" + encodeURIComponent(query);
+            window.open(url, "_blank");
+
+			return false;
+		}
+
+		function delayed_submit(object) {
+			if (navigator.userAgent.indexOf('MSIE') == -1) {
+				window.setTimeout(function() {stock_search(object)}, 300);
+			} else {
+				stock_search(object);
+			}
+			return false;
+		}
+
+		function stock_search (object)
+		{
+			query = object.query.value.replace(/^\s*/,'').replace(/\s*$/,'');	// trim
+			object.query.value=query;
+
+			if ( query == '' || query == sSearchHintText.replace(/^\s*/,'').replace(/\s*$/,''))
+			{
+				alert ( '검색어를 입력해 주세요.' );
+				return;
+			}
+			else {
+				object.submit();
+			}
+		}
+		/* <---------- 통합검색  end */
+
+		function popup()
+		{
+			win = window.open('/template/group_limit_pop.jsp','finan_popup','width=569 height=278 scrollbars=no status=no');
+			win.focus();
+		}
+	</script>
+
+	<iframe id="me_layers" name="test" title="네이버미 영역" width="0" height="0" scrolling="no" frameborder="0" style="display:block;top: 22px; right: 209px; position: absolute; z-index: 15;"></iframe>
+</div>
+<div id="wrap">
+	
+		<div class="banner_smart">
+			<div id="_SmartChannelTopBanner">
+				<script type="text/javascript">
+				if (ieVersion === -1 || ieVersion > 10) {
+					gladsdk.cmd.push(function() {
+						gladsdk.displayAd("_SmartChannelTopBanner");
+					});
+				}
+				</script>
+			</div>
+		</div>
+	
+
+<!-- //  global include -->
+<script language="JavaScript">
+function mouseOver(obj){
+  obj.style.backgroundColor="#f6f4e5";
+}
+function mouseOut(obj){
+  obj.style.backgroundColor="#ffffff";
+}
+</script>
+
+	<div id="newarea">
+			
+
+			<!-- leftmenu -->
+			<div class="snb snb2">
+				<h2 class="h_sise"><a href="/sise/"><span class="blind">국내증시</span></a></h2>
+				<ul class="nav1">
+				<li class="frst"><strong class="lst_sise"><span class="blind">주요시세정보</span></strong>
+					<ul class="sub">
+					 <li class="type1 lst1_1"><a href="/sise/sise_index.naver?code=KOSPI" onclick="clickcr(this,'siu.1','','',event);" class="off"><span class="blind">코스피</span></a></li>
+                     <li class="type1 lst1_2"><a href="/sise/sise_index.naver?code=KOSDAQ" onclick="clickcr(this,'siu.2','','',event);" class="off"><span class="blind">코스닥</span></a></li>
+                     <li class="type1 lst1_3"><a href="/sise/sise_index.naver?code=FUT" onclick="clickcr(this,'siu.3','','',event);" class="off"><span class="blind">선물</span></a></li>
+                     <li class="type1 lst1_26"><a href="/sise/sise_index.naver?code=KPI200" onclick="clickcr(this,'siu.26','','',event);" class="off"><span class="blind">코스피200</span></a></li>
+                     <li class="type1 lst1_31"><a href="/sise/konex.naver" onclick="clickcr(this,'siu.konex','','',event);" class="off"><span class="blind">코넥스</span></a></li>
+                     <li class="type1 lst1_16"><a href="/sise/sise_market_sum.naver" onclick="clickcr(this,'siu.16','','',event);" class="on"><span class="blind">시가총액</span></a></li>
+                     <li class="type1 lst1_32"><a href="/sise/dividend_list.naver" onclick="clickcr(this,'siu.dividend','','',event);" class="off"><span class="blind">배당</span></a></li>
+                     <li class="type1 lst1_4"><a href="/sise/sise_group.naver?type=upjong" onclick="clickcr(this,'siu.4','','',event);" class="off"><span class="blind">업종</span></a></li>
+                     <li class="type1 lst1_5"><a href="/sise/theme.naver" onclick="clickcr(this,'siu.5','','',event);" class="off"><span class="blind">테마</span></a></li>
+                     <li class="type1 lst1_30"><a href="/sise/sise_group.naver?type=group" onclick="clickcr(this,'siu.30','','',event);" class="off"><span class="blind">그룹사</span></a></li>
+					 <li class="type1 lst1_27 "><a href="/sise/etf.naver" onclick="clickcr(this,'siu.27','','',event);" class="off"><span class="blind">ETF</span></a></li>
+					 <li class="type1 lst1_34"><a href="/sise/etn.naver" onclick="clickcr(this,'siu.34','','',event);" class="off"><span class="blind">ETN</span></a></li>
+					 <li class="type1 lst1_8 "><a href="/sise/sise_rise.naver" onclick="clickcr(this,'siu.8','','',event);" class="off"><span class="blind">ª?Ω?</span></a></li>
+                     <li class="type1 lst1_9 "><a href="/sise/sise_steady.naver" onclick="clickcr(this,'siu.9','','',event);" class="off"><span class="blind">보합</span></a></li>
+                     <li class="type1 lst1_10"><a href="/sise/sise_fall.naver" onclick="clickcr(this,'siu.10','','',event);" class="off"><span class="blind">하락</span></a></li>
+                     <li class="type1 lst1_6"><a href="/sise/sise_upper.naver" onclick="clickcr(this,'siu.6','','',event);" class="off"><span class="blind">상한가</span></a></li>
+                     <li class="type1 lst1_7"><a href="/sise/sise_lower.naver" onclick="clickcr(this,'siu.7','','',event);" class="off"><span class="blind">하한가</span></a></li>
+                     <li class="type1 lst1_15 "><a href="/sise/sise_low_up.naver" onclick="clickcr(this,'siu.15','','',event);" class="off"><span class="blind">급등</span></a></li>
+                     <li class="type1 lst1_14 "><a href="/sise/sise_high_down.naver" onclick="clickcr(this,'siu.14','','',event);" class="off"><span class="blind">급락</span></a></li>
+                     <li class="type2 lst1_11"><a href="/sise/sise_quant.naver" onclick="clickcr(this,'siu.11','','',event);" class="off"><span class="blind">거래상위</span></a></li>
+                     <li class="type1 lst1_12 "><a href="/sise/sise_quant_high.naver" onclick="clickcr(this,'siu.12','','',event);" class="off"><span class="blind">급증</span></a></li>
+                     <li class="type1 lst1_13 "><a href="/sise/sise_quant_low.naver" onclick="clickcr(this,'siu.13','','',event);" class="off"><span class="blind">급감</span></a></li>
+                     <li class="lst1_23"><a href="/sise/sise_trans_style.naver" onclick="clickcr(this,'siu.23','','',event);" class="off"><span class="blind">투자자별매매동향</span></a></li>
+                     <li class="type1 lst1_17"><a href="/sise/sise_deal_rank.naver" onclick="clickcr(this,'siu.17','','',event);" class="off"><span class="blind">외국인매매</span></a></li>
+                     <li class="type1 lst1_18"><a href="/sise/sise_deal_rank.naver?investor_gubun=1000" onclick="clickcr(this,'siu.18','','',event);" class="off"><span class="blind">기관매매</span></a></li>
+                     <li class="lst1_19"><a href="/sise/sise_program.naver" onclick="clickcr(this,'siu.19','','',event);" class="off"><span class="blind">프로그램매매동향</span></a></li>
+                     <li class="lst1_22"><a href="/sise/sise_deposit.naver" onclick="clickcr(this,'siu.22','','',event);" class="off"><span class="blind">증시자금동향</span></a></li>
+                     <li class="lst1_21"><a href="/sise/sise_new_stock.naver" onclick="clickcr(this,'siu.21','','',event);" class="off"><span class="blind">신규상장</span></a></li>
+                     <li class="lst1_24 "><a href="/sise/sise_foreign_hold.naver" onclick="clickcr(this,'siu.24','','',event);" class="off"><span class="blind">외국인보유</span></a></li>
+                     <li class="lst1_25 "><a href="/sise/market3news_list.naver" onclick="clickcr(this,'siu.25','','',event);" class="off"><span class="blind">장외시세</span></a></li>
+                     <li class="lst1_33 "><a href="/sise/ipo.naver" onclick="clickcr(this,'siu.33','','',event);" class="off"><span class="blind">IPO</span></a></li>
+					</ul>
+				</li>
+				<li><strong class="lst_prevent"><span class="blind">투자자보호</span></strong>
+	                <ul class="sub">
+	                 <li class="lst1_20"><a href="/sise/management.naver" onclick="clickcr(this,'siu.20','','',event);" class="off"><span class="blind">관리종목</span></a></li>
+	                 <li class="lst1_29"><a href="/sise/trading_halt.naver" onclick="clickcr(this,'siu.29','','',event);" class="off"><span class="blind">거래정지종목</span></a></li>
+	                 <li class="lst1_28"><a href="/sise/investment_alert.naver?type=caution" onclick="clickcr(this,'siu.28','','',event);" class="off"><span class="blind">시장경보종목</span></a></li>
+	                </ul>
+            	</li>
+    			<li><strong class="lst_search"><span class="blind">종목조건검색</span></strong>
+					<ul class="sub">
+					 <li class="type1 lst2_2"><a href="/sise/item_gold.naver" onclick="clickcr(this,'sih.2','','',event);" class="off"><span class="blind">골든크로스</span></a></li>
+					 <li class="type1 lst2_1"><a href="/sise/item_gap.naver" onclick="clickcr(this,'sih.1','','',event);" class="off"><span class="blind">갭상승</span></a></li>
+					 <li class="type1 lst2_3"><a href="/sise/item_igyuk.naver" onclick="clickcr(this,'sih.3','','',event);" class="off"><span class="blind">이격도과열</span></a></li>
+					 <li class="type1 lst2_4"><a href="/sise/item_overheating_1.naver" onclick="clickcr(this,'sih.4','','',event);" class="off"><span class="blind">투심과열</span></a></li>
+					 <li class="lst2_5"><a href="/sise/item_overheating_2.naver" onclick="clickcr(this,'sih.5','','',event);" class="off"><span class="blind">상대강도과열</span></a></li>
+					</ul>
+				</li>
+				<li><a href="/sise/report.naver"><strong class="lst_report"><span class="blind">기업 전자공시</span></strong></a></li>
+				<li class="last"><a href="/sise/short_trade.naver"><strong class="lst_short"><span class="blind">공매도 종합 현황</span></strong></a></li>
+				</ul>
+								
+			</div>
+			<!-- //leftmenu -->
+			
+			<!-- //leftmenu -->
+		<div id="contentarea">
+			<!-- 컨텐츠 -->
+			<div id="contentarea_left" class="bnd_wid">
+				<!-- 로케이터 : 메뉴에 맞게 고쳐주세요 -->
+				<div class="sub_location tlt_bottom_line">
+					<a href="/">금융홈</a> &gt; <a href="/sise/">국내증시</a> &gt; <a href="#">시가총액</a>
+				</div>
+				<!-- //로케이터 -->
+
+				<h3 class="sub_tlt">시가총액<span class="tlt_page">항목을 자유롭게 변경하실 수 있습니다.&nbsp;&nbsp;<img src="https://ssl.pstatic.net/imgstock/images5/bar_C7C.gif">&nbsp;&nbsp;최대 6개까지 설정 가능합니다.</span></h3>
+			<!-- 항목선택 -->
+		
+		
+	
+
+
+ 
+ 
+ 	
+ 	
+ 
+
+
+<script language="javascript">
+function fieldSubmit() {
+	var chkcnt = 0;
+	
+	for(i = 0; i < document.field_form.fieldIds.length ; i++) {
+    	if(document.field_form.fieldIds[i].checked == true) {
+    		chkcnt++;
+    	}
+    }
+    
+    if(chkcnt > 6) {
+    	alert('최대 6개까지만 가능합니다.');
+    	return;
+    }
+
+	document.field_form.action = 'field_submit.naver';
+	document.field_form.submit();
+}
+
+function fieldDefault() {
+	document.field_form.action = 'field_del.naver';
+	document.field_form.submit();
+
+}
+</script>
+<!-- 항목선택 -->
+<div class="box_type_m" style="margin-top:0">
+<form name="field_form">
+<input type="hidden" name="menu" value="market_sum">
+<input type="hidden" name="returnUrl" value="http://finance.naver.com/sise/sise_market_sum.naver">
+	<div class="subcnt_sise_item sub810"><div class="subcnt_sise_item_top sub810t">
+		<table summary="원하시는 항목을 선택하여 결과를 보실 수 있습니다." cellpadding="0" cellspacing="0" class="item_list">
+		<caption>항목 선택표</caption>
+		<colgroup><col width="62"><col width="84"><col width="111"><col width="97"><col width="116"><col width="85"></colgroup>
+		
+			<tbody><tr>
+			
+			
+
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+						
+					
+				
+					
+				
+					
+				
+				<td class="choice"><input type="checkbox" id="option1" name="fieldIds" value="quant" checked=""> <label for="option1">거래량</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option2" name="fieldIds" value="ask_buy"> <label for="option2">매수호가</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option3" name="fieldIds" value="amount"> <label for="option3">거래대금</label>(백만)</td>
+			
+				
+				
+					
+						
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td class="choice"><input type="checkbox" id="option4" name="fieldIds" value="market_sum" checked=""> <label for="option4">시가총액</label>(억)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option5" name="fieldIds" value="operating_profit"> <label for="option5">영업이익</label>(억)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+						
+					
+				
+					
+				
+				<td class="choice"><input type="checkbox" id="option6" name="fieldIds" value="per" checked=""> <label for="option6">PER</label>(배)</td>
+			
+			</tr>
+		
+			<tr>
+			
+			
+
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option7" name="fieldIds" value="open_val"> <label for="option7">시가</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option8" name="fieldIds" value="ask_sell"> <label for="option8">매도호가</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option9" name="fieldIds" value="prev_quant"> <label for="option9">전일거래량</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option10" name="fieldIds" value="property_total"> <label for="option10">자산총계</label>(억)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option11" name="fieldIds" value="operating_profit_increasing_rate"> <label for="option11">영업이익증가율</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+						
+					
+				
+				<td class="choice"><input type="checkbox" id="option12" name="fieldIds" value="roe" checked=""> <label for="option12">ROE</label>(%)</td>
+			
+			</tr>
+		
+			<tr>
+			
+			
+
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option13" name="fieldIds" value="high_val"> <label for="option13">고가</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option14" name="fieldIds" value="buy_total"> <label for="option14">매수총잔량</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+						
+					
+				
+					
+				
+					
+				
+					
+				
+				<td class="choice"><input type="checkbox" id="option15" name="fieldIds" value="frgn_rate" checked=""> <label for="option15">외국인비율</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option16" name="fieldIds" value="debt_total"> <label for="option16">부채총계</label>(억)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option17" name="fieldIds" value="net_income"> <label for="option17">당기순이익</label>(억)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option18" name="fieldIds" value="roa"> <label for="option18">ROA</label>(%)</td>
+			
+			</tr>
+		
+			<tr>
+			
+			
+
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option19" name="fieldIds" value="low_val"> <label for="option19">저가</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option20" name="fieldIds" value="sell_total"> <label for="option20">매도총잔량</label></td>
+			
+				
+				
+					
+				
+					
+						
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td class="choice"><input type="checkbox" id="option21" name="fieldIds" value="listed_stock_cnt" checked=""> <label for="option21">상장주식수</label>(천주)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option22" name="fieldIds" value="sales"> <label for="option22">매출액</label>(억)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option23" name="fieldIds" value="eps"> <label for="option23">주당순이익</label>(원)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option24" name="fieldIds" value="pbr"> <label for="option24">PBR</label>(배)</td>
+			
+			</tr>
+		
+			<tr>
+			
+			<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option25" name="fieldIds" value="sales_increasing_rate"> <label for="option25">매출액증가율</label></td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option26" name="fieldIds" value="dividend"> <label for="option26">보통주배당금</label>(원)</td>
+			
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				<td><input type="checkbox" id="option27" name="fieldIds" value="reserve_ratio"> <label for="option27">유보율</label>(%)</td>
+			
+			</tr>
+		
+		</tbody></table>
+		<div class="item_btn">
+			<a href="javascript:fieldSubmit()"><img src="https://ssl.pstatic.net/imgstock/images5/btn_apply.gif" alt="적용하기" width="55" height="18"></a><a href="javascript:fieldDefault()"><img src="https://ssl.pstatic.net/imgstock/images5/btn_initialize.gif" alt="초기항 목으로" width="76" height="18"></a>
+		</div>
+	</div></div>
+</form></div>
+
+<!-- //항목선택 끝 -->
+
+			<!-- //항목선택 끝 -->
+			</div>
+			<!--  right area -->
+			<div id="contentarea_right">
+				
+
+			</div>
+
+			<!-- 종목 -->
+			<div class="box_type_l">
+				<div class="tab_style_1">
+
+	
+	
+	
+					<div class="tab_smeun choice"><div class="choice_lt"></div>코스피</div>
+					<div class="tab_smeun"><a href="?sosok=1">코스닥</a></div>
+	
+
+				</div>
+				
+				<!-- [D] 활성화된 탭메뉴에 따라 blind text 변경해주세요 -->
+
+	
+	
+				<h4 class="blind">코스피</h4>
+				<table summary="코스피 시세정보를 선택한 항목에 따라 정보를 제공합니다." cellpadding="0" cellspacing="0" class="type_2">
+				<caption>코스피</caption>
+	
+
+
+				<colgroup>
+				<col width="2%">
+				<col width="*">
+				<col width="7%">
+				<col width="9%">
+				<col width="7%">
+				<col width="8%">
+	
+					<col width="8%">
+	
+					<col width="8%">
+	
+					<col width="8%">
+	
+					<col width="8%">
+	
+					<col width="8%">
+	
+					<col width="8%">
+	
+				<col width="6%">
+				</colgroup>
+				<thead>
+				<tr>
+					<th scope="col">N</th>
+					<th scope="col">종목명</th>
+					<th scope="col">현재가</th>
+					<th scope="col" class="tr" style="padding-right:8px">전일비</th>
+					<th scope="col">등락률</th>
+					<th scope="col">액면가</th>
+	
+					<th scope="col">시가총액</th>
+	
+					<th scope="col">상장주식수</th>
+	
+					<th scope="col">외국인비율</th>
+	
+					<th scope="col">거래량</th>
+	
+					<th scope="col">PER</th>
+	
+					<th scope="col">ROE</th>
+	
+					<th scope="col">토론실</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr><td colspan="10" class="blank_08"></td></tr>
+				
+				
+					
+					
+				
+				
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">1</td>
+					<td><a href="/item/main.naver?code=005930" class="tltle">삼성전자</a></td>
+					<td class="number">64,700</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				300
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.46%
+				</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">3,862,449</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">5,969,783</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">50.93</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">3,554,644</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">11.20</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">13.92</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=005930"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">2</td>
+					<td><a href="/item/main.naver?code=373220" class="tltle">LG에너지솔루션</a></td>
+					<td class="number">413,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				5,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-1.20%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">966,420</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">234,000</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">3.05</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">56,616</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">104.21</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.68</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=373220"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">3</td>
+					<td><a href="/item/main.naver?code=000660" class="tltle">SK하이닉스</a></td>
+					<td class="number">109,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.46%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">793,523</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">728,002</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">49.75</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">548,940</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.26</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">16.84</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=000660"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">4</td>
+					<td><a href="/item/main.naver?code=207940" class="tltle">삼성바이오로직스</a></td>
+					<td class="number">826,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				16,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+1.98%
+				</span>
+			</td>
+					<td class="number">2,500</td>
+	
+		
+			
+			
+			
+									<td class="number">587,897</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">71,174</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.30</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">19,631</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">140.52</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.21</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=207940"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">5</td>
+					<td><a href="/item/main.naver?code=005935" class="tltle">삼성전자우</a></td>
+					<td class="number">58,000</td>
+					<td class="number">
+				<span class="tah p11">0</span>
+			</td>
+					<td class="number">
+				<span class="tah p11">0.00%</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">477,274</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">822,887</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">72.68</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">246,950</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.04</td>
+			
+		
+	
+		
+			
+			
+					<td class="number">N/A</td>
+			
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=005935"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">6</td>
+					<td><a href="/item/main.naver?code=035420" class="tltle">NAVER</a></td>
+					<td class="number">280,500</td>
+					<td class="number">
+				<span class="tah p11">0</span>
+			</td>
+					<td class="number">
+				<span class="tah p11">0.00%</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">460,158</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">164,049</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">54.06</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">107,964</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">2.79</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">106.72</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=035420"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">7</td>
+					<td><a href="/item/main.naver?code=006400" class="tltle">삼성SDI</a></td>
+					<td class="number">592,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				2,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.34%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">407,086</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">68,765</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">43.13</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">76,821</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">35.62</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.45</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=006400"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">8</td>
+					<td><a href="/item/main.naver?code=005380" class="tltle">현대차</a></td>
+					<td class="number">186,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.27%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">398,491</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">213,668</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">26.86</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">111,155</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.45</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">6.84</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=005380"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">9</td>
+					<td><a href="/item/main.naver?code=035720" class="tltle">카카오</a></td>
+					<td class="number">88,600</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				200
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.23%
+				</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">395,396</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">446,270</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">28.76</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">292,511</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">28.29</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">17.10</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=035720"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">10</td>
+					<td><a href="/item/main.naver?code=000270" class="tltle">기아</a></td>
+					<td class="number">83,600</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				300
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.36%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">338,884</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">405,363</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">34.88</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">240,948</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">7.12</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">14.69</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=000270"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">11</td>
+					<td><a href="/item/main.naver?code=051910" class="tltle">LG화학</a></td>
+					<td class="number">479,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				16,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+3.56%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">338,490</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">70,592</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">48.37</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">129,383</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.23</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">18.47</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=051910"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">12</td>
+					<td><a href="/item/main.naver?code=005490" class="tltle">POSCO홀딩스</a></td>
+					<td class="number">281,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				3,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+1.08%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">244,995</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">87,187</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">52.86</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">62,374</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">3.70</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">13.97</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=005490"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">13</td>
+					<td><a href="/item/main.naver?code=068270" class="tltle">셀트리온</a></td>
+					<td class="number">172,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				1,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.88%
+				</span>
+			</td>
+					<td class="number">1,000</td>
+	
+		
+			
+			
+			
+									<td class="number">242,687</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">140,688</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">19.69</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">86,361</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">42.17</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">15.81</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=068270"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">14</td>
+					<td><a href="/item/main.naver?code=105560" class="tltle">KB금융</a></td>
+					<td class="number">58,400</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.86%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">240,814</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">412,352</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">72.78</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">211,969</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">5.51</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.80</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=105560"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">15</td>
+					<td><a href="/item/main.naver?code=055550" class="tltle">신한지주</a></td>
+					<td class="number">41,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				200
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.49%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">211,806</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">516,600</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">62.18</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">221,237</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">5.45</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.80</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=055550"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">16</td>
+					<td><a href="/item/main.naver?code=028260" class="tltle">삼성물산</a></td>
+					<td class="number">109,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				1,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+1.39%
+				</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">204,641</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">186,887</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">15.70</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">36,718</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">12.63</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">5.40</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=028260"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">17</td>
+					<td><a href="/item/main.naver?code=323410" class="tltle">카카오뱅크</a></td>
+					<td class="number">42,050</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				200
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.47%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">200,241</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">476,196</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">15.81</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">103,091</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">90.04</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.91</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=323410"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">18</td>
+					<td><a href="/item/main.naver?code=096770" class="tltle">SK이노베이션</a></td>
+					<td class="number">213,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				1,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.47%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">196,952</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">92,466</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">24.10</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">42,295</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">65.54</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">1.91</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=096770"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">19</td>
+					<td><a href="/item/main.naver?code=034730" class="tltle">SK</a></td>
+					<td class="number">263,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				1,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.57%
+				</span>
+			</td>
+					<td class="number">200</td>
+	
+		
+			
+			
+			
+									<td class="number">195,013</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">74,149</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">21.43</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">26,571</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.51</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.19</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=034730"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">20</td>
+					<td><a href="/item/main.naver?code=066570" class="tltle">LG전자</a></td>
+					<td class="number">119,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.42%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">194,741</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">163,648</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">27.87</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">112,842</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">20.86</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">6.32</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=066570"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">21</td>
+					<td><a href="/item/main.naver?code=012330" class="tltle">현대모비스</a></td>
+					<td class="number">203,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.25%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">192,456</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">94,573</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">34.14</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">35,691</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.20</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">6.87</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=012330"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">22</td>
+					<td><a href="/item/main.naver?code=377300" class="tltle">카카오페이</a></td>
+					<td class="number">111,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				2,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-1.76%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">147,669</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">132,439</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">42.54</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">28,311</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">-563.13</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">-2.45</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=377300"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">23</td>
+					<td><a href="/item/main.naver?code=051900" class="tltle">LG생활건강</a></td>
+					<td class="number">922,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				31,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+3.48%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">144,000</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">15,618</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">40.21</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">27,661</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">19.34</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">16.65</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=051900"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">24</td>
+					<td><a href="/item/main.naver?code=086790" class="tltle">하나금융지주</a></td>
+					<td class="number">46,300</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				50
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.11%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">139,012</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">300,242</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">71.33</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">169,655</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">3.94</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.86</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=086790"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">25</td>
+					<td><a href="/item/main.naver?code=015760" class="tltle">한국전력</a></td>
+					<td class="number">21,050</td>
+					<td class="number">
+				<span class="tah p11">0</span>
+			</td>
+					<td class="number">
+				<span class="tah p11">0.00%</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">135,133</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">641,964</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">14.58</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">143,294</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">-2.54</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">-7.99</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=015760"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">26</td>
+					<td><a href="/item/main.naver?code=011200" class="tltle">HMM</a></td>
+					<td class="number">27,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				150
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.56%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">132,041</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">489,039</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.82</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">494,409</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">1.96</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">88.62</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=011200"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">27</td>
+					<td><a href="/item/main.naver?code=034020" class="tltle">두산에너빌리티</a></td>
+					<td class="number">20,400</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				200
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.97%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">128,943</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">632,071</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.40</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">522,949</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">19.88</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.67</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=034020"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">28</td>
+					<td><a href="/item/main.naver?code=032830" class="tltle">삼성생명</a></td>
+					<td class="number">63,300</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				200
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.32%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">126,600</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">200,000</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">12.75</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">28,857</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.62</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.01</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=032830"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">29</td>
+					<td><a href="/item/main.naver?code=329180" class="tltle">현대중공업</a></td>
+					<td class="number">140,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				3,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-2.43%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">124,726</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">88,773</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.62</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">52,511</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">-13.17</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">-14.87</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=329180"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">30</td>
+					<td><a href="/item/main.naver?code=017670" class="tltle">SK텔레콤</a></td>
+					<td class="number">56,200</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				600
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-1.06%
+				</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">122,984</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">218,833</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">47.54</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">146,776</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.22</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">13.63</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=017670"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">31</td>
+					<td><a href="/item/main.naver?code=009150" class="tltle">삼성전기</a></td>
+					<td class="number">162,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				3,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+1.88%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">121,377</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">74,694</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">27.83</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">171,579</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">14.13</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">14.29</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=009150"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">32</td>
+					<td><a href="/item/main.naver?code=010950" class="tltle">S-Oil</a></td>
+					<td class="number">104,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.48%
+				</span>
+			</td>
+					<td class="number">2,500</td>
+	
+		
+			
+			
+			
+									<td class="number">117,649</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">112,583</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">80.14</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">63,000</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.84</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">21.76</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=010950"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">33</td>
+					<td><a href="/item/main.naver?code=259960" class="tltle">크래프톤</a></td>
+					<td class="number">236,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				2,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.84%
+				</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">116,055</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">49,072</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">28.78</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">22,405</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">20.67</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">17.86</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=259960"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">34</td>
+					<td><a href="/item/main.naver?code=003550" class="tltle">LG</a></td>
+					<td class="number">71,800</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				400
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.56%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">112,942</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">157,301</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">36.42</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">32,368</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.63</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">12.36</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=003550"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">35</td>
+					<td><a href="/item/main.naver?code=010130" class="tltle">고려아연</a></td>
+					<td class="number">593,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				1,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+0.17%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">111,899</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">18,870</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">20.04</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">7,421</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">13.87</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">11.07</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=010130"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">36</td>
+					<td><a href="/item/main.naver?code=033780" class="tltle">KT&amp;G</a></td>
+					<td class="number">81,300</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				300
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.37%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">111,619</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">137,292</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">37.62</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">29,154</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">11.42</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.74</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=033780"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">37</td>
+					<td><a href="/item/main.naver?code=316140" class="tltle">우리금융지주</a></td>
+					<td class="number">14,850</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				450
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-2.94%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">108,117</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">728,061</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">35.54</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">1,817,725</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.16</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">10.59</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=316140"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">38</td>
+					<td><a href="/item/main.naver?code=352820" class="tltle">하이브</a></td>
+					<td class="number">259,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				1,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.58%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">107,105</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">41,353</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">15.28</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">20,417</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">71.82</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">6.83</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=352820"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">39</td>
+					<td><a href="/item/main.naver?code=018260" class="tltle">삼성에스디에스</a></td>
+					<td class="number">136,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.36%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">105,621</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">77,378</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">12.74</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">16,743</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">17.28</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">8.80</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=018260"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">40</td>
+					<td><a href="/item/main.naver?code=302440" class="tltle">SK바이오사이언스</a></td>
+					<td class="number">137,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				3,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-2.49%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">105,194</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">76,784</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.73</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">111,931</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">28.38</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">38.08</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=302440"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">41</td>
+					<td><a href="/item/main.naver?code=003490" class="tltle">대한항공</a></td>
+					<td class="number">29,700</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				100
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.34%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">103,303</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">347,821</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">13.46</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">188,303</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">15.59</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">11.60</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=003490"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">42</td>
+					<td><a href="/item/main.naver?code=090430" class="tltle">아모레퍼시픽</a></td>
+					<td class="number">175,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				12,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+7.67%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">102,655</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">58,493</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">26.70</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">568,685</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">62.54</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.20</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=090430"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">43</td>
+					<td><a href="/item/main.naver?code=003670" class="tltle">포스코케미칼</a></td>
+					<td class="number">132,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				1,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.75%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">102,639</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">77,463</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">6.39</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">68,665</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">75.16</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">7.92</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=003670"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">44</td>
+					<td><a href="/item/main.naver?code=000810" class="tltle">삼성화재</a></td>
+					<td class="number">208,500</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_up.gif" width="7" height="6" style="margin-right:4px;" alt="상승"><span class="tah p11 red02">
+				3,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 red01">
+				+1.71%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">98,777</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">47,375</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">49.09</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">14,727</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.39</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">7.09</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=000810"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">45</td>
+					<td><a href="/item/main.naver?code=030200" class="tltle">KT</a></td>
+					<td class="number">35,050</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				50
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.14%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">91,520</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">261,112</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">42.26</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">106,513</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">6.74</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.36</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=030200"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+				<tr><td colspan="13" class="blank_06"></td></tr>
+				<tr><td colspan="13" class="division_line"></td></tr>
+				<tr><td colspan="13" class="blank_08"></td></tr>
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">46</td>
+					<td><a href="/item/main.naver?code=361610" class="tltle">SK아이이테크놀로지</a></td>
+					<td class="number">128,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				1,500
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-1.16%
+				</span>
+			</td>
+					<td class="number">1,000</td>
+	
+		
+			
+			
+			
+									<td class="number">91,261</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">71,298</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.46</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">44,790</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">91.89</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">5.57</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=361610"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">47</td>
+					<td><a href="/item/main.naver?code=036570" class="tltle">엔씨소프트</a></td>
+					<td class="number">409,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				1,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-0.24%
+				</span>
+			</td>
+					<td class="number">500</td>
+	
+		
+			
+			
+			
+									<td class="number">89,792</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">21,954</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">42.03</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">14,911</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">22.62</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">12.62</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=036570"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">48</td>
+					<td><a href="/item/main.naver?code=011070" class="tltle">LG이노텍</a></td>
+					<td class="number">357,000</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				11,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-2.99%
+				</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">84,492</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">23,667</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">25.76</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">112,965</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.51</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">30.94</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=011070"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">49</td>
+					<td><a href="/item/main.naver?code=024110" class="tltle">기업은행</a></td>
+					<td class="number">11,000</td>
+					<td class="number">
+				<span class="tah p11">0</span>
+			</td>
+					<td class="number">
+				<span class="tah p11">0.00%</span>
+			</td>
+					<td class="number">5,000</td>
+	
+		
+			
+			
+			
+									<td class="number">81,873</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">744,301</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">14.80</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">234,514</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">3.63</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">9.21</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=024110"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+	
+
+
+				<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
+					<td class="no">50</td>
+					<td><a href="/item/main.naver?code=251270" class="tltle">넷마블</a></td>
+					<td class="number">93,200</td>
+					<td class="number">
+				<img src="https://ssl.pstatic.net/imgstock/images/images4/ico_down.gif" width="7" height="6" style="margin-right:4px;" alt="하락"><span class="tah p11 nv01">
+				1,000
+				</span>
+			</td>
+					<td class="number">
+				<span class="tah p11 nv01">
+				-1.06%
+				</span>
+			</td>
+					<td class="number">100</td>
+	
+		
+			
+			
+			
+									<td class="number">80,109</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">85,954</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">22.69</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">29,549</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">33.35</td>
+			
+		
+	
+		
+			
+			
+			
+									<td class="number">4.29</td>
+			
+		
+	
+					<td class="center"><a href="/item/board.naver?code=251270"><img src="https://ssl.pstatic.net/imgstock/images5/ico_debatebl2.gif" width="15" height="13" alt="토론실"></a></td>
+				</tr>
+			
+	
+		
+		
+				<tr><td colspan="13" class="blank_09"></td></tr>
+				<tr><td colspan="13" class="division_line_1"></td></tr>
+				<tr><td colspan="13" class="blank_09"></td></tr>
+		
+	
+
+
+
+				</tbody>
+				</table>
+				<table summary="페이지 네비게이션 리스트" class="Nnavi" align="center">
+				<caption>페이지 네비게이션</caption>
+				<tbody><tr>		
+					
+					
+					
+					<td class="on">
+				<a href="/sise/sise_market_sum.naver?&amp;page=1">1</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=2">2</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=3">3</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=4">4</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=5">5</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=6">6</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=7">7</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=8">8</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=9">9</a>
+				</td>
+<td>
+				<a href="/sise/sise_market_sum.naver?&amp;page=10">10</a>
+				</td>
+
+					<td class="pgR">
+				<a href="/sise/sise_market_sum.naver?&amp;page=11">
+				다음<img src="https://ssl.pstatic.net/static/n/cmn/bu_pgarR.gif" width="3" height="5" alt="" border="0">
+				</a>
+				</td>
+
+					<td class="pgRR">
+				<a href="/sise/sise_market_sum.naver?&amp;page=36">맨뒤
+				<img src="https://ssl.pstatic.net/static/n/cmn/bu_pgarRR.gif" width="8" height="5" alt="" border="0">
+				</a>
+				</td>
+
+					
+				</tr>
+				</tbody></table>
+			</div>
+			<!-- // 종목 -->
+			<!-- //컨텐츠 -->
+		</div>
+	</div>
+
+
+
+
+
+
+	
+
+
+
+
+
+
+	<div id="footer">
+		<ul>
+			<li class="first">
+				<a href="https://www.naver.com/rules/service.html" onclick="clickcr(this, 'fot.service', '', '', event);" target="_blank">이용약관</a>
+			</li>
+			<li>
+				<a href="https://finance.naver.com/rules.naver" onclick="clickcr(this, 'fot.policy', '', '', event);" target="_blank">금융게시판 운영원칙</a>
+			</li>
+			<li>
+				<a href="https://www.naver.com/rules/privacy.html" onclick="clickcr(this, 'fot.privacy', '', '', event);" target="_blank"><strong>개인정보처리방침</strong></a>
+			</li>
+			<li>
+				<a href="https://www.naver.com/rules/disclaimer.html" onclick="clickcr(this, 'fot.limit', '', '', event);" target="_blank">책임의 한계와 법적고지</a>
+			</li>
+			<li>
+				<a href="https://help.naver.com/support/alias/contents2/finance/finance_1.naver" onclick="clickcr(this, 'fot.help', '', '', event);" target="_blank">금융 고객센터</a>
+			</li>
+		</ul>
+		<p class="desc">네이버(주)가 제공하는 금융 정보는 각 콘텐츠 제공업체<a href="javascript:;" onclick="togglePanelFooter('footerPanel0');" class="desc_help"><img src="https://ssl.pstatic.net/static/nfinance/2018/06/29/btn_help.png" width="17" height="17" alt="제공업체 상세설명"></a>로부터 받는 투자 참고사항이며, 오류가 발생하거나 지연될 수 있습니다.<br>네이버(주)와 콘텐츠 제공업체는 제공된 정보에 의한 투자 결과에 법적인 책임을 지지 않습니다. 게시된 정보는 무단으로 배포할 수 없습니다.</p>
+		<div id="footerPanel0" class="provider_layer" style="display:none" tabindex="0" onblur="hidePannel('footerPanel0')">
+			<strong class="provider_layer__tit">콘텐츠 제공업체</strong>
+			<div class="provider_layer__txt">
+				<p><span>코스콤 : </span>실시간 주가정보 및 국내시세정보</p>
+				<p><span>에프앤가이드 : </span>기업 및 재무정보</p>
+				<p><span>KG제로인 : </span>해외 시세, 시장지표 및 펀드 정보</p>
+				<p><span>한국예탁결제원 : </span>주주총회일 및 전자투표 정보</p>
+				<p><span>인포스탁 : </span>국내 테마 정보</p>
+			</div>
+			<span class="arrow"></span>
+		</div>
+		<address>
+			<a href="https://www.navercorp.com/" target="_blank" class="logo" onclick="clickcr(this, 'fot.nhn', '', '', event);"><img src="https://ssl.pstatic.net/static/nfinance/2019/02/22/ci_naver.png" width="58" height="11" alt="NAVER"></a>
+			<em>Copyright ©</em>
+			<a href="https://www.navercorp.com/" target="_blank" onclick="clickcr(this, 'fot.nhn', '', '', event);">NAVER Corp.</a>
+			<span>All Rights Reserved.</span>
+		</address>
+		
+		
+		
+	</div>
+
+
+
+<script type="text/javascript">
+function isVisible(obj) {
+    if (obj == document) return true
+ 
+    if (!obj) return false
+    if (!obj.parentNode) return false
+    if (obj.style) {
+        if (obj.style.display == 'none') return false
+        if (obj.style.visibility == 'hidden') return false
+    }
+ 
+    if (window.getComputedStyle) {
+        var style = window.getComputedStyle(obj, "")
+        if (style.display == 'none') return false
+        if (style.visibility == 'hidden') return false
+    }
+ 
+    var style = obj.currentStyle
+    if (style) {
+        if (style['display'] == 'none') return false
+        if (style['visibility'] == 'hidden') return false
+    }
+ 
+    return isVisible(obj.parentNode)
+}
+
+function isChildOf(myobj, containerObj) {
+	while(myobj != undefined) {
+		if (myobj == document.body) {
+			break;
+		} 
+		if (myobj == containerObj) {
+			return true;
+		}
+		myobj = myobj.parentElement;
+	}
+	return false;	
+}
+
+function gnbLayerClose(e){
+	var target = e.target ? e.target : e.srcElement;
+	if (isVisible(document.getElementById('gnb_service_lyr')) || isVisible(document.getElementById('gnb_notice_lyr')) ||isVisible(document.getElementById('gnb_my_lyr')) ) {
+		if (!isChildOf(target, document.getElementById('gnb'))) {
+			gnbAllLayerClose();
+		}
+	}	
+}
+
+var isIE = (navigator.userAgent.toLowerCase().indexOf("msie")!=-1 && window.document.all) ? true:false;
+if (isIE) {
+	document.attachEvent('onmousedown', gnbLayerClose);
+} else {
+	window.addEventListener('mousedown', gnbLayerClose);
+}
+
+function showPannel(layerId){
+    var layer = jindo.$(layerId);
+    layer.style.display='block';
+
+    if (layerId == "summary_lyr") {
+        var layerHeight = jindo.$Element(layer).height();
+        jindo.$Element("summary_ifr").height(layerHeight);
+    }
+}
+
+function hidePannel(layerId){
+    var layer = jindo.$(layerId);
+    layer.style.display='none';
+}
+
+function togglePanelFooter(layerId) {
+    var elTargetLayer = jindo.$Element(jindo.$$.getSingle("#" + layerId));
+
+    if (elTargetLayer != null) {
+        if (elTargetLayer.visible()) {
+            hidePannel(layerId);
+        } else {
+            showPannel(layerId);
+        }
+    }
+}
+
+// add data-useragent
+document.documentElement.setAttribute('data-useragent',navigator.userAgent);
+</script>
+</div>
+
+
+</body></html>
