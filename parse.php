@@ -3,6 +3,7 @@ include_once "./_header.php";
 ?>
 
 <body>
+
     <div style="width: 100%; padding: 30px">
         <div class="row">
             <div class="col-5">
@@ -82,7 +83,7 @@ include_once "./_header.php";
             </div>
         </div>
         <div class="col-9">
-            <iframe id="ss-iframe" style="width: 100%; height: 800px" src="./html3.html" sandbox="allow-scripts allow-same-origin"></iframe>
+            <iframe id="ss-iframe" style="width: 100%; height: 800px" src="" sandbox="allow-scripts allow-same-origin"></iframe>
         </div>
         <div class="col-1 position-relative">
             <div class="qs-box" id="qs-box">

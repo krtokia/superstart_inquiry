@@ -107,16 +107,15 @@ function allInit() {
     document.querySelectorAll("#plist-box input").forEach(e => {
         e.value = "";
     })
+    _init();
 }
 
 document.addEventListener("DOMContentLoaded", _init)
 async function _init() {
 
     var a = STORAGE.getItem("page");
-    console.log(a)
 
-
-    SAVED_URL = document.getElementById("urlinput").value;
+    // SAVED_URL = document.getElementById("urlinput").value;
     IS_LOAD_END = false;
     checkSession();
     nextPageCheck();
@@ -368,17 +367,17 @@ function acceptSelect(update = false) {
 
 // Functions
 async function geturl(force = false) {
-
+    
     if (force) {
-        const yn = confirm("모든 정보가 초기화 됩니다. 계속 하시겠습니까?");
-        if (yn) {
-            allInit();
-        } else {
-            document.getElementById("urlinput").value = SAVED_URL;
-            return;
+        if (SAVED_URL != "") {
+            const yn = confirm("모든 정보가 초기화 됩니다. 계속 하시겠습니까?");
+            if (yn) {
+                allInit();
+            } else {
+                document.getElementById("urlinput").value = SAVED_URL;
+                return;
+            }
         }
-
-        
     }
 
 
@@ -402,6 +401,7 @@ async function geturl(force = false) {
     })
         .then((response) => response.text())
         .catch(e => console.log(e));
+    console.log(response);
     var iframe = document.getElementById("ss-iframe");
     iframe.contentWindow.document.open();
     iframe.contentWindow.document.write(response);

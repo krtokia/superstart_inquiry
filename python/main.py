@@ -13,11 +13,6 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
 
 class TClass():
-    # name = "books"
-    # allowed_domains = ["finance.naver.com"]
-    # start_urls = [
-    #     'https://finance.naver.com/sise/sise_market_sum.naver',
-    # ]
     domain = ""
     depthurl = ""
 
@@ -102,19 +97,27 @@ class TClass():
             column = _data['column']
             dtype = _data['type']
             results = []
-
+            
+            datatype = re.sub('[SM]$', '', dtype)
+            print(datatype)
+            smtype = re.sub('^([a-z]+)(S|M)$', r'\2', dtype)
             for result in response.select(query):
-                if dtype == "text":
+                if datatype == "text":
                     results.append(result.get_text(strip=True))
-                elif dtype == "page":
+                elif datatype == "child":
                     txt = result.get_text()
                     href = result.get('href')
                     if "child" in _data:
                         for __data in self.subparse(self.req(self.urljoin(href)), _data['child']):
                             results.append(__data)
+                            if smtype == "S":
+                                break
                     else:
-                        results.append(result.get_text(
-                            strip=True)+"|"+result.get("href"))
+                        results.append(result.get_text(strip=True)+"|"+result.get("href"))
+                elif datatype == "href":
+                    results.append(result.get_text(strip=True)+"|"+result.get("href"))
+                if smtype == "S":
+                    break
             yield {"column": column, "query": query, "data": results}
 
     def subparse(self, response, data=None):
@@ -129,7 +132,7 @@ class TClass():
         yield results
 
 
-with open("/data/test.json", 'r', encoding='utf-8') as f:
+with open("/var/www/html/python/jsons/"+sys.argv[1], 'r', encoding='utf-8') as f:
     ori_data = json.load(f)
 
 # mainurl = "https://finance.naver.com/sise/sise_market_sum.naver"
@@ -176,6 +179,6 @@ for _data in data:
     else:
         continue
 
-with open("new_json7.json", "w", encoding="UTF-8") as f:
+with open("/var/www/html/python/results/"+sys.argv[1], "w", encoding="UTF-8") as f:
     json.dump(final_data, f, ensure_ascii=False, indent=4)
     print("New JSON file is created!")

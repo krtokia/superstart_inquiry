@@ -13,6 +13,7 @@ $postFileds = array(
 );
 
 $postFileds = json_encode($postFileds);
+
 $ch = curl_init();                                 //curl 초기화
 curl_setopt($ch, CURLOPT_URL, $url);               //URL 지정하기
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
@@ -22,12 +23,8 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    //요청 결과를 문자열�
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);      //connection timeout 10초 
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   //원격 서버의 인증서가 유효한지 검사 안함
 
-// // print_r($ch);
 $response = curl_exec($ch);
-// // print_r(curl_getinfo($ch));
+
 curl_close($ch);
 
-// // print_r($response);
 echo $response;
-
-// print_r($response);
