@@ -4,6 +4,7 @@ $json = json_decode($json, TRUE);
 
 $geturl = $json['url'];
 
+
 $url = "http://host.docker.internal:8050/render.html";
 $postFileds = array(
     "html" => 1,
@@ -24,6 +25,7 @@ curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);      //connection timeout 10초
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   //원격 서버의 인증서가 유효한지 검사 안함
 
 $response = curl_exec($ch);
+
 
 curl_close($ch);
 

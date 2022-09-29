@@ -1,0 +1,20 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20승강기사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20승강기사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20승강기사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [
+            "[제주소식]제주방문 관광객 이동패턴 빅데이터 분석"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20식용수&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [
+            "2019-08-07 13:49"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20식용수&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [
+            "(제주=연합뉴스)제주도와제주관광공사는 차량 내비게이션을 활용한 '제주방문 관광객...도 담수화시설, 문화재생 대상지 선정\n\n    (제주=연합뉴스)제주도는 문화체육관광부 등의 '2019 유휴공간 문화재생...  우도 담수화 시설은 용천수가 없는 우도에식용수를 자체적으로 해결하려고 1998년 조성됐다. \n..."
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20식용수&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]

@@ -1,0 +1,98 @@
+let targetCha = null;
+
+function addChaPeople(el) {
+    targetCha = el;
+    var peoples = $("#people-all").find("span");
+    $("#modalRow").html("")
+
+    peoples.each((e, el) => {
+        var $clone = $("#new-people-modal-tmp").children().clone();
+        $clone.find("label").text($(el).text());
+        $clone.find("input").attr("id", "p" + e);
+        $clone.find("label").attr("for", "p" + e);
+
+        var vali = $(targetCha).find("button");
+        var check = false;
+        vali.each((ee, eel) => {
+            if ($(eel).text() == $(el).text()) {
+                check = true;
+            }
+        })
+
+        $clone.find("input").attr("checked", check);
+
+        $("#modalRow").append($clone)
+    })
+    var modal = new bootstrap.Modal(document.getElementById("peopleModal"), { backdrop: true, keyboard: false, focus: true })
+    modal.show();
+}
+function modalAddPeopleComp() {
+    var target = $("#modalRow").find(".people-checkbox:checked+label");
+    $(targetCha).html("");
+    target.each((e, el) => {
+        var name = $(el).text();
+        var $clone = $("#add-people-tmp").children().clone();
+        $clone.find("button").find("span.name").text(name);
+        $(targetCha).append($clone)
+    })
+
+    var modal = bootstrap.Modal.getInstance(document.getElementById("peopleModal"))
+    modal.hide();
+}
+
+function peopleAdd() {
+    var name = $("#people-add").val();
+    if (!name) {
+        return;
+    }
+    var newel = $("#new-people-tmp").children().clone();
+    $(newel).find("span.name").text(name)
+    $("#people-all").append(newel)
+    $("#people-add").val("")
+}
+
+function addChaBox() {
+    var $box = $("#add-peoplebox-tmp").children().clone();
+    $box.insertBefore("#cha-addbtn");
+}
+
+function removePeople(el) {
+    el.remove();
+}
+
+$(document).on("keyup", "input[name=price]", function (e) {
+    var $target = $(e.target);
+    var price = $target.val();
+    price = price.replace(/[^0-9]/g, "");
+    price = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    $target.val(price)
+})
+
+
+function submitForm() {
+    var obj = [];
+    var target = $(".container .cha-boxinner")
+    target.each((e, el) => {
+        var $t = $(el);
+        var name = $t.find("input[name=name]").val();
+        if (!name) {
+            name = (e + 1) + "차";
+        }
+        var price = $t.find("input[name=price]").val().replace(/[^0-9]/g, "");
+        if (!price) {
+            price = 0;
+        }
+        var peoples = [];
+        $t.find(".targetpeople").each((ee, eel) => {
+            peoples.push($(eel).text());
+        })
+        obj.push({ name: name, price, price, people: peoples })
+    })
+
+    $("#formVal").val(JSON.stringify(obj));
+    $("#bungForm").submit();
+}
+
+function removeCha(el) {
+    $(el).closest(".cha-boxinner").remove();
+}

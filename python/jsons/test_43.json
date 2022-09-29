@@ -1,0 +1,26 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [
+            "정부, 우주전파재난·불법전파 대응인력 확충"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20우주재난&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [
+            "2014-04-27 06:02"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20우주재난&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [
+            "...에서 이르면 다음 달 중순부터 20명으로 늘릴 계획이다. \n    2011년 8월제주에 설립된 우주전파센터는 태양흑점 폭발 등우주재난을 관측, 분석해 전파재난 발생 가능성 등을 예상하는 기관이다. \n    태양 ..."
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20우주재난&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]

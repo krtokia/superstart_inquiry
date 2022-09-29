@@ -1,0 +1,4 @@
+2022-09-02 13:35:09,320 - INFO - [__init__:34] - start 24
+2022-09-02 13:35:09,321 - INFO - [req:46] - call [https://www.yna.co.kr/search/index?query=제주%20태풍&ctype=A&from=20120101&to=20211231&period=diy&page_no=1]
+2022-09-02 13:35:20,484 - INFO - [req:46] - call [https://www.yna.co.kr/search/index?query=제주%20태풍&ctype=A&from=20120101&to=20211231&period=diy&page_no=2]
+2022-09-02 13:35:32,958 - INFO - [parseMain:110] - end 24

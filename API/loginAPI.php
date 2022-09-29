@@ -1,10 +1,10 @@
 <?php
+require_once("./common.php");
+// mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysqli = new mysqli('host.docker.internal', 'superstart', 'Ehzldk@3990', 'superstart_main', 3306) or die("Cannot connet");
 // mysqli_query($conn, 'set name utf8');
 
-session_start();
+
 
 $type = $_POST['type'];
 
@@ -35,8 +35,6 @@ if ($type == "login") {
     }
     // echo $id . " " . $pw_hash . " " . $sql;
 } else {
-
-    print_r($_POST);
     $pw = $_POST['pw'];
     $pw_confirm = $_POST['pwconfirm'];
     if ($pw !== $pw_confirm) {
@@ -50,9 +48,13 @@ if ($type == "login") {
     $pw = $_POST['pw'];
     $pw_hash = hash("sha256", $pw);
     $stmt->execute();
-    $result = $stmt->get_result();
-
-    print_r($result);
+    $result = $stmt->error;
+    if($result) {
+        echo "<script>alert('이미 존재하는 아이디입니다.'); history.back()</script>";
+        exit(0);
+    }
+    $_SESSION['logedin'] = $id;
+    header("Location: /");
 }
 
 

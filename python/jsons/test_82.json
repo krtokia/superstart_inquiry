@@ -1,0 +1,29 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [
+            "[연합뉴스 이 시각 헤드라인] - 16:00",
+            "[연합뉴스 이 시각 헤드라인] - 08:00"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=%EC%A0%9C%EC%A3%BC%20%EC%83%9D%ED%99%9C%EC%A0%9C%ED%92%88%20%EC%82%AC%EA%B3%A0&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [
+            "2019-06-05 16:00",
+            "2019-02-18 08:00"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=%EC%A0%9C%EC%A3%BC%20%EC%83%9D%ED%99%9C%EC%A0%9C%ED%92%88%20%EC%82%AC%EA%B3%A0&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [
+            "...인으로 확인\n\n    헝가리 다뉴브강 유람선 침몰사고현장에서 지난 4일(현지시간) 수습된 시신 ... 피의자 고유정(36)씨의 신상정보가 공개됐다.제주지방경찰청은 5일 오전 신상공개 심의위원회를 ...매중지·수거 조치\n\n    침구류와 미용 마스크 등생활제품에 이어 이번엔 기준치 이상의 라돈이 검출된 ...",
+            "...릴 전망이다. 다음날까지 예상 강수량은제주도·남해안 20~60㎜(많은 곳제주도 산지 100㎜ 이상), 남부지방 10~...헤드폰, 헤어드라이기, 청소기, 면도기 등생활제품에서 전자파는 얼마나 방출되고 있을까. ...술정보통신부는 18일부터 소비자가 신청한생활제품의 전자파를 측정하고 그 결과를 공개하는 ..."
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=%EC%A0%9C%EC%A3%BC%20%EC%83%9D%ED%99%9C%EC%A0%9C%ED%92%88%20%EC%82%AC%EA%B3%A0&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]

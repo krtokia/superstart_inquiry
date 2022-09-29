@@ -6,7 +6,7 @@ include_once "./_header.php";
     <div class="w-100 h-100 row justify-content-center mt-5">
 
         <div class="col-2" style="min-height: 500px">
-            <form id="form" action="/loginAPI.php" method="POST" class="h-100 w-100 needs-validation" data-type="login">
+            <form id="form" action="/API/loginAPI.php" method="POST" class="h-100 w-100 needs-validation" data-type="login">
                 <input type="hidden" name="type" value="login">
                 <div class="w-100 h-100 shadow p-3">
                     <h2 class="text-center">로그인</h2>

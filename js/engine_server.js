@@ -11,9 +11,10 @@ const loadEnd = () => {
     loading.hide();
 }
 
-function timestamp()
-{
-    return Math.floor(new Date().getTime());
+function timestamp() {
+    var tp = Math.floor(new Date().getTime());
+    tp = tp.toString() + Math.random().toString(36).substring(2);
+    return tp;
 }
 
 function genPage(strarr) {
@@ -81,7 +82,7 @@ function genPage(strarr) {
 // common func end
 
 // Messaging
-window.addEventListener('message', function(e) {
+window.addEventListener('message', function (e) {
     console.log(e.data); // { hello: 'parent' }
 
     if (e.data.href) {
@@ -94,9 +95,12 @@ async function messageRecieved(href) {
     // var domain = document.getElementById("urlinput").value.replace(/^(https?\:\/\/[^\/]+).*/, "$1");
     var domain = SAVED_URL.replace(/^(https?\:\/\/[^\/]+).*/, "$1");
     var url = domain + href
+
+
     this.document.getElementById("urlinput").value = url;
-    await geturl();
-    addPageSub(true);
+    console.log(url)
+    // await geturl();
+    // addPageSub(true);
 }
 
 // Start
@@ -107,27 +111,154 @@ function allInit() {
     document.querySelectorAll("#plist-box input").forEach(e => {
         e.value = "";
     })
+    document.querySelectorAll(".beforestart").forEach(e => {
+        e.classList.add("d-none");
+    })
     _init();
 }
 
 document.addEventListener("DOMContentLoaded", _init)
 async function _init() {
-
     var a = STORAGE.getItem("page");
 
     // SAVED_URL = document.getElementById("urlinput").value;
     IS_LOAD_END = false;
-    checkSession();
+    // checkSession();
     nextPageCheck();
+    checkLoader();
 }
+
+async function checkLoader() {
+    var result = await fetch("/API/loadQueries.php", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: "check" })
+    })
+        .then((response) => response.text())
+        .catch((err) => console.error(err));
+    if (result < 1) {
+        var btn = document.getElementById("loadQueriBtn");
+        btn.classList.add("d-none");
+        btn.disabled = true;
+    }
+}
+
+async function loadQuerieList() {
+    if (!SAVED_URL) {
+        alert("먼저 URL을 입력 해 주세요.");
+        return;
+    }
+
+    var result = await fetch("/API/loadQueries.php", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: "list" })
+    })
+        .then((response) => response.json())
+        .catch((err) => console.error(err));
+    var sbox = document.getElementById("s-box");
+    sbox.innerHTML = "";
+    for (var i of result) {
+        var li = document.createElement("li");
+        li.innerHTML = `<label><div class='col'>${i['title']}<br><span class="time">${i['cdt']}</span></div><input type='radio' value="${i['pKey']}" name='s-item'></label>`;
+        sbox.append(li);
+    }
+    modal.show();
+}
+
+async function getSavedQuerie() {
+    var pKey = document.querySelector("input[name='s-item']:checked");
+    if (!pKey) {
+        return;
+    }
+    pKey = pKey.value;
+
+    var result = await fetch("/API/loadQueries.php", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: "get", pKey: pKey })
+    })
+        .then((response) => response.json())
+        .catch((err) => console.error(err));
+    var odata = JSON.parse(result['jsquery']);
+
+    var jsonencode = JSON.stringify(odata);
+    STORAGE.setItem("page", jsonencode);
+
+    var query = odata['data'][0]['queries'];
+    document.getElementById("pagesBox").innerHTML = "";
+    console.log(query)
+    for (var i = 0; i < query.length; i++) {
+        var data = {
+            "column": query[i]['column'],
+            "query": query[i]['query'],
+            "dataType": query[i]['type']
+        };
+        addColumn2(data);
+    }
+
+    var lists = ["listQuery", "pagePattern", "pageType", "startPage", "endPage"];
+    var flag = false;
+    for (var l of lists) {
+        if (odata['data'][0][l]) {
+            flag = true;
+            document.getElementById("plist" + l).value = odata['data'][0][l]
+        }
+    }
+
+    if (flag) {
+        var url = document.getElementById("urlinput").value;
+        var reurl = url.replace(/^https?:\/\/[^\/]+/, "");
+        var isParam = reurl.indexOf("?") >= 0;
+
+        var pattern = odata['data'][0]['pagePattern'];
+        var patternname = pattern.replace("[[:page:]]", "");
+        var find = reurl.indexOf(patternname);
+        if (find >= 0) {
+            var regex = new RegExp(`${patternname}[^&]+`, 'g')
+            reurl = reurl.replace(regex, pattern)
+        } else if (isParam) {
+            reurl = reurl + "&" + pattern;
+        } else {
+            reurl = reurl + "?" + pattern;
+        }
+        document.getElementById("plisturl").value = reurl;
+    } else {
+        document.querySelectorAll("*[id^=plist]").forEach(e => {
+            console.log(e);
+            e.value = "";
+        })
+    }
+    if (odata['data'].length > 1) {
+        console.log("자식 있음");
+    }
+
+    modal.hide();
+}
+
+
 function checkSession() {
     var chk = STORAGE.getItem("page");
     if (chk !== null) {
         // session 있음
+        console.log(chk);
     }
-    for (var i = 0; i < STORAGE.length; i++) {
-        console.log(STORAGE.getItem(STORAGE.key(i)))
-    }
+    // for (var i = 0; i < STORAGE.length; i++) {
+    //     console.log(STORAGE.getItem(STORAGE.key(i)))
+    // }
+
+    var sdata = JSON.parse(chk);
+    sdata = sdata['data'][1];
+    console.log(sdata);
+
+
+
 }
 
 function iframeInit(e) {
@@ -205,17 +336,17 @@ function viewList(e, show) {
         }
     } catch (e) {
         if (!parsingStart.checked) {
-            
+
             _clickDataSet(null, false)
         }
         return;
     }
 
-    
+
     const query = e.closest("li").querySelector("input[name=query]").value;
     const type = e.closest("li").querySelector("input[name=dataType]").value;
 
-    
+
     _clickDataSet(query, show);
 }
 
@@ -227,7 +358,7 @@ document.addEventListener("change", function (e) {
         case "columnTypeSelect":
             _showSelectedItems(target.value);
             break;
-        
+
     }
     // switch (target.tagName) {
     //     case "INPUT":
@@ -254,7 +385,7 @@ document.addEventListener("change", function (e) {
     //                 } else {
     //                     checkbox.click();
     //                 }
-                    
+
     //                 // _modeChangedCheck();
     //                 // renderChildSelect();
     //                 break;
@@ -263,13 +394,13 @@ document.addEventListener("change", function (e) {
     // }
 });
 modalEl.addEventListener("hidden.bs.modal", e => {
-        console.log("modal has removed")
-    })
+    console.log("modal has removed")
+})
 
 // query selector 관련
 function initQsbox(selected = null, multi = false, href = false) {
-    
-    
+
+
     var query = "#textS";
     var checked = "#textS";
 
@@ -294,7 +425,7 @@ function initQsbox(selected = null, multi = false, href = false) {
         e.disabled = true;
         // e.checked = false;
     })
-    
+
     if (single) {
         query = "#textM";
         if (href) query += ",[id^=href]:not([id$=S]),[value=list]";
@@ -318,14 +449,14 @@ function initQsbox(selected = null, multi = false, href = false) {
         e.disabled = false;
     })
 
-    
+
     if (tmp !== null && tmp.disabled !== true) {
-        checked = "#"+tmp.id;
+        checked = "#" + tmp.id;
     }
 
     qsbox.querySelector(checked).checked = true;
 
-    
+
 
 }
 
@@ -351,11 +482,12 @@ function acceptSelect(update = false) {
 
     dataType = dataType.value;
     var data = { "dataType": dataType, "query": CONFIRM_QUERY }
-    if (UPDATE_MODE) {
-        editColumnAfter(data, UPDATE_MODE);
+    // if (UPDATE_MODE) {
+    if (true) {
+        editColumnAfter(data, SELECTED_COL);
         // return;
     } else {
-        addColumn(data, QS_AVAILABLE);
+        // addColumn(data, QS_AVAILABLE);
     }
     QS_AVAILABLE = "";
     CONFIRM_QUERY = "";
@@ -367,7 +499,7 @@ function acceptSelect(update = false) {
 
 // Functions
 async function geturl(force = false) {
-    
+
     if (force) {
         if (SAVED_URL != "") {
             const yn = confirm("모든 정보가 초기화 됩니다. 계속 하시겠습니까?");
@@ -397,16 +529,20 @@ async function geturl(force = false) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({url: url})
+        body: JSON.stringify({ url: url })
     })
         .then((response) => response.text())
         .catch(e => console.log(e));
-    console.log(response);
+
     var iframe = document.getElementById("ss-iframe");
     iframe.contentWindow.document.open();
     iframe.contentWindow.document.write(response);
     iframe.contentWindow.document.close();
+    document.querySelectorAll(".beforestart").forEach(e => {
+        e.classList.remove("d-none")
+    })
     SAVED_URL = url;
+    addColumn2(false);
 }
 
 const parsingStart = document.getElementById("parsingStart");
@@ -415,23 +551,24 @@ try {
 } catch (e) { console.error("Cannot find element parsingStart"); }
 
 function parsingBtn(e) {
-    
+
     if (parsingStart.checked && e !== null) {
         // columnEmpty();
         // if (SELECTED_COL === undefined) {
         //     document.querySelector("li[data-page]:last-child input[name='selectColumn']").click();
         // }
-        
-        parsingStart.nextElementSibling.innerText = "중지";
+
+        // parsingStart.nextElementSibling.innerText = "";
         _parsingStart();
-    // } else if (e === null) {
-    //     parsingStart.checked = true;
-    //     parsingStart.nextElementSibling.innerText = "중지";
-    //     _parsingStart();
+        // } else if (e === null) {
+        //     parsingStart.checked = true;
+        //     parsingStart.nextElementSibling.innerText = "중지";
+        //     _parsingStart();
     } else {
         parsingStart.checked = false;
-        parsingStart.nextElementSibling.innerText = "시작";
+        // parsingStart.nextElementSibling.innerText = "";
         UPDATE_MODE = false;
+        SELECTED_COL = "";
         _parsingStop();
     }
 }
@@ -448,6 +585,7 @@ function isPageList(force = false) {
         parsingStart.checked = true;
         parsingStart.nextElementSibling.innerText = "중지";
         _parsingStart();
+
     }
 }
 
@@ -459,7 +597,7 @@ function endPageList(boolean = false) {
         hrefList.forEach((e) => {
             strarr.push(e.textContent);
         })
-        
+
         var pagePattern = genPage(strarr);
         document.querySelector("#plistlistQuery").value = TEMP_QUERY;
         document.querySelector("#plisturl").value = pagePattern;
@@ -493,7 +631,7 @@ function endPageList(boolean = false) {
 
 async function addPage(isComplite = false) {
     const items = document.querySelectorAll("#pagesBox > li");
-    const data = [];
+    let data = [];
     for (var i of items) {
         var column = i.querySelector("input[name=columnName]").value;
         var type = i.querySelector("input[name=dataType]").value;
@@ -504,80 +642,120 @@ async function addPage(isComplite = false) {
             data.push({ column, type, query });
         }
     }
-    
-    
+
+
     if (PAGE_NUM == 0) {
-        var listchk = document.querySelectorAll("input[id^=plist]")
-        const listData = {};
-        for (var i of listchk) {
-            listData[i.id.replace("plist", "")] = i.value;
-        }
-        let json = listData;
-        if (json.url == "") {
-            // json.url = document.getElementById("urlinput").value.replace(/^https?\:\/\/[^\/]+/, "")
-            json.url = SAVED_URL.replace(/^https?\:\/\/[^\/]+/, "");
-        }
-        json['queries'] = data;
-        // var domain = document.getElementById("urlinput").value.replace(/^(https?\:\/\/[^\/]+).*/, "$1");
-        var domain = SAVED_URL.replace(/^(https?\:\/\/[^\/]+).*/, "$1");
-        
-        STORAGE.setItem("page", JSON.stringify({
-            "domain": domain,
-            "data": [json]
-        }));
-        var pageQry = data.find(arr => arr['type'].match(/child/,"child"));
+        // Storage check
+        // var scheck = STORAGE.getItem("page");
+        // var chkflag = false;
+        // if (scheck) {
+        //     try {
+        //         scheck = JSON.parse(scheck)
+        //         var dchk = scheck['data'];
+        //         if (dchk.length > 1) {
+        //             chkflag = true;
+        //         }
+        //     } catch (e) { }
+        // }
+
+        // var listchk = document.querySelectorAll("input[id^=plist]")
+        // const listData = {};
+        // for (var i of listchk) {
+        //     listData[i.id.replace("plist", "")] = i.value;
+        // }
+        // let json = listData;
+        // if (json.url == "") {
+        //     // json.url = document.getElementById("urlinput").value.replace(/^https?\:\/\/[^\/]+/, "")
+        //     json.url = SAVED_URL.replace(/^https?\:\/\/[^\/]+/, "");
+        // }
+        // json['queries'] = data;
+        // // var domain = document.getElementById("urlinput").value.replace(/^(https?\:\/\/[^\/]+).*/, "$1");
+        // var domain = SAVED_URL.replace(/^(https?\:\/\/[^\/]+).*/, "$1");
+        // var final_json = [json];
+        // if (chkflag) {
+        //     var child_data = scheck['data'][1];
+        //     final_json.push(child_data);
+        // }
+
+
+        // STORAGE.setItem("page", JSON.stringify({
+        //     "domain": domain,
+        //     "data": final_json
+        // }));
+
+        var pageQry = data.find(arr => arr['type'].match(/child/, "child"));
         pageQry = pageQry ? pageQry['query'] : null
         if (pageQry) {
             _document.querySelectorAll(pageQry).forEach((e) => {
                 e.parentNode.classList.toggle("nextClickAble")
                 if (e.parentNode.classList.contains("nextClickAble")) {
-                    e.setAttribute("href", "javascript:window.parent.postMessage({href: '"+e.dataset.sshref.replace(/'/g,"\\'")+"'}, '*')")
+                    e.setAttribute("href", "javascript:window.parent.postMessage({href: '" + e.dataset.sshref.replace(/'/g, "\\'") + "'}, '*')")
                 } else {
                     e.setAttribute("href", "javascript:void(0)")
                 }
-                
+
             })
         }
 
-        document.querySelectorAll("#compliteBtn, .isListed").forEach(e => {
-            e.disabled = !e.disabled;
-        })
-        
+        // document.querySelectorAll("#compliteBtn, .isListed").forEach(e => {
+        //     e.disabled = !e.disabled;
+        // })
+
     } else {
         let originData = STORAGE.getItem("page");
         originData = JSON.parse(originData);
         var findchild = originData['data'][0]['queries'].findIndex(e => {
             return e['child']
         })
-        
+
         originData['data'][0]['queries'][findchild]['child'] = { queries: data };
         originData['data'][1] = { "queries": data };
         STORAGE.setItem("page", JSON.stringify(originData));
     }
 
-
     if (isComplite) {
+
+        const confirmYn = confirm("완료 하시겠습니까?");
+        if (!confirmYn) {
+            return;
+        }
+
         var body = STORAGE.getItem("page");
+        body = JSON.parse(body);
+
+        var title = document.getElementById("pageTitle").value;
+        if (!title) {
+            title = "새 페이지";
+        }
+        body['title'] = title;
+
         var res = await fetch("./json.php", {
             method: "POST",
             headers: {
-            "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(body)
         })
             .then((response) => response.text())
             .catch((err) => console.error(err));
         console.log(res);
+        if (res) {
+            alert("에러 발생");
+            console.error(res);
+        } else {
+            STORAGE.clear();
+            location.href = "./parsingList.php";
+        }
     }
 }
 
 function addPageSub(boolean) {
-    
-    if (boolean) {
+
+    if (PAGE_NUM == 0) {
         var box = document.querySelector(".savedContainer > ul");
         var li = document.createElement("li");
         var btn = document.createElement("button");
-        btn.innerText = (PAGE_NUM + 1) + "번 페이지";
+        btn.innerText = "1번 페이지";
         btn.classList.add("btn", "btn-outline-secondary");
         btn.dataset.pagenum = PAGE_NUM;
         btn.setAttribute("onclick", "showPageInfo(this)");
@@ -589,12 +767,46 @@ function addPageSub(boolean) {
         _clickDataSet(null, false);
         PAGE_NUM = 1
         document.getElementById("nextBtn").classList.add("d-none");
-        // document.getElementById("compliteBtn").classList.remove("d-none");
         document.querySelectorAll("#compliteBtn, .isListed").forEach(e => {
             e.disabled = false
         })
+
+        // STORAGE CHK
+        var storage = STORAGE.getItem("page");
+        storage = JSON.parse(storage);
+        var d = storage['data'];
+        if (d.length > 1) {
+            var queries = d[1]['queries'];
+            for (var i = 0; i < queries.length; i++) {
+                var data = {
+                    "column": queries[i]['column'],
+                    "query": queries[i]['query'],
+                    "dataType": queries[i]['type']
+                };
+                addColumn(data);
+            }
+        }
     } else {
-        console.log("False")
+
+        // var box = document.querySelector(".savedContainer > ul");
+        // box.innerHTML = "";
+        // var li = document.createElement("li");
+        // var btn = document.createElement("button");
+        // btn.innerText = "2번 페이지";
+        // btn.classList.add("btn", "btn-outline-secondary");
+        // btn.dataset.pagenum = PAGE_NUM;
+        // btn.setAttribute("onclick", "showPageInfo(this)");
+        // li.append(btn);
+        // box.append(li);
+        // document.getElementById("pagesBox").innerHTML = "";
+        // document.getElementById("query").innerHTML = "";
+        // document.getElementById("resultBox").innerHTML = "";
+        // _clickDataSet(null, false);
+        // PAGE_NUM = 0;
+        // document.getElementById("nextBtn").classList.add("d-none");
+        // document.querySelectorAll("#compliteBtn, .isListed").forEach(e => {
+        //     e.disabled = false
+        // })
     }
 
     nextPageCheck();
@@ -638,7 +850,7 @@ function editColumn(e) {
     _parsingNext(query, update);
     if (!parsingStart.checked) {
         parsingStart.click();
-    } 
+    }
 }
 
 function editColumnAfter(data, updateval) {
@@ -646,6 +858,7 @@ function editColumnAfter(data, updateval) {
     const child = document.querySelector("*[data-page='" + updateval + "']");
     child.querySelector("input[name=query]").value = data['query'];
     child.querySelector("input[name=dataType]").value = data['dataType'];
+    console.log(data);
     nextPageCheck();
 }
 
@@ -661,7 +874,7 @@ function removeColumn(_this) {
     //     }
     //     SELECTED_COL = undefined
     //     parsingStart.nextElementSibling.click();
-        
+
     // }
     _this.closest("li").remove();
     columnSorting(ul);
@@ -689,7 +902,7 @@ function renderChildSelect() {
     if (SELECTED_COL === undefined) {
         return;
     }
-    
+
     var find = document.querySelector("*[data-page='" + SELECTED_COL + "']")
     if (find === null || find === undefined) {
         return;
@@ -701,7 +914,7 @@ function insertSelector(reVal) {
     if (SELECT_MODE != "plist") {
         var targetbox = document.querySelector("*[data-page='" + SELECTED_COL + "'] .databox");
         var chk = targetbox.querySelector("input[name=query]");
-    
+
         if (!chk) {
             var input = document.createElement("input");
             input.type = "hidden";
@@ -711,7 +924,7 @@ function insertSelector(reVal) {
         }
         if (reVal) {
             chk.value = reVal
-        
+
         } else {
             chk.remove();
         }
@@ -724,12 +937,12 @@ function insertSelector(reVal) {
         // document.querySelector("#plistQuery").value = reVal;
         box.classList.remove("d-none");
     }
-    
+
 }
 
 function renderResultList(query) {
     _clickDataSet(null, false)
-    
+
     var box = document.getElementById("plist-box");
     var resultArr = iframe.contentWindow.document.querySelectorAll(query);
     var cnt = 0;
@@ -781,7 +994,7 @@ function renderResult() {
         // if (SELECT_MODE == "url" || SELECT_MODE == "next") {
         //     rend = DOMAIN_NAME+r.dataset.sshref;
         // } else {
-            rend = r.textContent.replace(/(\n| )/g, ' ');
+        rend = r.textContent.replace(/(\n| )/g, ' ');
         // }
         var li = document.createElement("li");
         var p = document.createElement(type ? "a" : "p");
@@ -791,36 +1004,13 @@ function renderResult() {
             p.href = DOMAIN_NAME + r.dataset.sshref;
             p.target = "_blank"
         }
-        
+
         li.append(p);
         resultbox.append(li);
         cnt++;
     }
 }
 
-// function modeCheck() {
-//     var qrychk = document.querySelector("*[data-page='" + SELECTED_COL + "'] .databox input[name=query]");
-//     if (!qrychk) {
-//         return;
-//     }
-//     var query = qrychk.value;
-//     var items = _document.querySelectorAll(query);
-//     if (SELECT_MODE == "text") {
-//         return;
-//     }
-//     var chk = items[0];
-//     if (chk.dataset.sshref) {
-//         return;
-//     }
-//     var find = findHref(chk);
-//     if (!find) {
-//         _clickDataSet(null, false);
-//         insertSelector(null);
-//         return;
-//     }
-//     var newQuery = _getSelector(find);
-//     insertSelector(newQuery);
-// }
 
 function findHref(el) {
     var target = el;
@@ -844,6 +1034,9 @@ function findHref(el) {
 }
 
 function nextPageCheck() {
+    if (!SAVED_URL) {
+        return;
+    }
     var chk = document.querySelectorAll("#pagesBox > li");
     var next = false;
     var complete = false;
@@ -879,7 +1072,9 @@ function nextPageCheck() {
     }
 
     if (PAGE_NUM == 0) {
-        document.getElementById("listbtn").classList.remove("d-none");
+        if (SAVED_URL) {
+            document.getElementById("listbtn").classList.remove("d-none");
+        }
     } else {
         document.getElementById("listbtn").classList.add("d-none");
     }
@@ -895,36 +1090,80 @@ function parseComplete() {
 }
 
 function showPageInfo(pagenum) {
-    const yn = confirm(pagenum.innerText + "로 돌아가시겠습니까?")
-    if (!yn) {
-        return;
+    var pnum = pagenum.dataset.pagenum;
+    if (pnum == "0") {
+        const yn = confirm(pagenum.innerText + "로 돌아가시겠습니까?")
+        if (!yn) {
+            return;
+        }
+        loading.show = true;
+        var storage = STORAGE.getItem("page");
+        storage = JSON.parse(storage);
+        var domain = storage.domain;
+        var data = storage.data[0];
+        var href = data.url;
+
+        var url = domain + href
+        this.document.getElementById("urlinput").value = url;
+        PAGE_NUM = 0;
+
+        document.getElementById("pagesBox").innerHTML = "";
+        document.getElementById("query").innerHTML = "";
+        document.getElementById("resultBox").innerHTML = "";
+
+        geturl();
+        var queries = data['queries'];
+        for (var i of queries) {
+            addColumn(i);
+        }
+        nextPageCheck();
+        document.querySelector(".savedContainer ul").innerHTML = "";
+    } else {
+        console.log(STORAGE.getItem("page"));
     }
-    loading.show = true;
-    var storage = STORAGE.getItem("page");
-    storage = JSON.parse(storage);
-    var domain = storage.domain;
-    var data = storage.data[0];
-    var href = data.url;
-    
-    var url = domain + href
-    this.document.getElementById("urlinput").value = url;
-    PAGE_NUM = 0;
-
-    document.getElementById("pagesBox").innerHTML = "";
-    document.getElementById("query").innerHTML = "";
-    document.getElementById("resultBox").innerHTML = "";
-    
-    
-
-    geturl();
-    var queries = data['queries'];
-    for (var i of queries) {
-        addColumn(i);
-    }
-    nextPageCheck();
-    document.querySelector(".savedContainer ul").innerHTML = "";
-
 }
+
+const addColumn2 = (data, isChild) => {
+    if (isChild) {
+        const ul = document.getElementById("pagesBox");
+
+        const child = document.getElementById("pagesInner_002").cloneNode(true);
+        child.id = child.id.replace("002", timestamp());
+        child.dataset.page = timestamp();
+        child.classList.add("childBox")
+        if (data) {
+            child.querySelector("input[type='text'].c-name").value = data['column'] ? data['column'] : "컬럼" + (parseInt(cnt) + 1);
+            child.querySelector("input[name=query]").value = data['query'];
+            child.querySelector("input[name=dataType]").value = data['dataType'];
+        }
+        // child.querySelector("p.title").innerText = parseInt(cnt)+1;
+        // child.querySelector("input[type='text'].c-name").value = data['column'] ? data['column'] : "컬럼" + (parseInt(cnt) + 1);
+        // child.querySelector("input[name=query]").value = data['query'];
+        // child.querySelector("input[name=dataType]").value = data['dataType'];
+        // child.querySelector("input[name=typeAvailable]").value = QS_AVAILABLE;
+        ul.append(child);
+        // child.querySelector("input[type='text'].c-name").focus();
+        nextPageCheck();
+    } else {
+        const ul = document.getElementById("pagesBox");
+        const cnt = ul.children.length;
+        const child = document.getElementById("pagesInner_002").cloneNode(true);
+        child.id = child.id.replace("002", timestamp());
+        child.dataset.page = timestamp();
+        if (data) {
+            child.querySelector("input[type='text'].c-name").value = data['column'] ? data['column'] : "컬럼" + (parseInt(cnt) + 1);
+            child.querySelector("input[name=query]").value = data['query'];
+            child.querySelector("input[name=dataType]").value = data['dataType'];
+        }
+        // child.querySelector("p.title").innerText = parseInt(cnt)+1;
+        // child.querySelector("input[name=typeAvailable]").value = QS_AVAILABLE;
+        ul.append(child);
+        // child.querySelector("input[type='text'].c-name").focus();
+        nextPageCheck();
+    }
+}
+
+
 
 /**
  * 
@@ -933,4 +1172,13 @@ function showPageInfo(pagenum) {
 function morebtn(el) {
     var target = el.previousElementSibling;
     console.log(target);
+}
+
+
+
+const parseClick = (el) => {
+    var colnum = el.closest("li").dataset.page;
+    SELECTED_COL = colnum;
+    var parsingStartCheckbox = document.getElementById("parsingStart");
+    parsingStartCheckbox.click();
 }

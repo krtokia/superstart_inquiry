@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function formInit() {
     form.addEventListener("submit", function (event) {
-        console.log("1234")
         sendForm();
         if (!form.checkValidity()) {
             event.preventDefault();

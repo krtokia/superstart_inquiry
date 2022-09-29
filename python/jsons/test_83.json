@@ -1,0 +1,26 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [
+            "제주도민 40% \"자연재난 우려\"…안전의식 조사"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20식품사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [
+            "2013-08-21 10:40"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20식품사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [
+            "...사고 다발 분야는 교통사고 \n\n    (제주=연합뉴스) 홍정표 기자 =제주도민 10명 가운데 약 4명이 ...저·여가 사고 9.7%, 노인 사고 8.9%,식품 사고8.1%, 경제 취약층 사고 7%, 다중이용시설...운동 확산을 위해 '안전문화운동 추진제주도협의회'(공동대표 우근민제주지사·고충석 자원봉사협의회장)를 ..."
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20식품사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]

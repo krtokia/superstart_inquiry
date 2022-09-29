@@ -38,11 +38,14 @@ let UPDATE_MODE = false;
 
 
 const modalOptions = {
-            backdrop: "static",
-            keyboard: false
-        }
-const modalEl = document.getElementById("sel-modal");
-const modal = new bootstrap.Modal(modalEl, modalOptions)
+    backdrop: "static",
+    keyboard: false
+}
+const modalEl = document.getElementById("lModal");
+const modal = new bootstrap.Modal(modalEl, modalOptions);
+
+const listModalEl = document.getElementById("list-modal");
+const listModal = new bootstrap.Modal(listModalEl, modalOptions)
 
 const loadingEl = document.getElementById("loadingModal")
 const loadingModal = new bootstrap.Modal(loadingEl, modalOptions)
@@ -58,7 +61,7 @@ const loading = {
         } else {
             setTimeout(() => {
                 loadingModal.hide()
-            },100)
+            }, 100)
         }
     },
     get status() {

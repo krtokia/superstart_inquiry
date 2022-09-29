@@ -1,16 +1,10 @@
 <?php
 include_once "./_header.php";
+include_once "./_commonHeader.php";
 
-$logedin_info = $_SESSION['logedin'];
 
-if (!$logedin_info) {
-    echo "<script type='text/javascript'>location.replace('./login.php');</script>";
-    exit();
-} else {
-    echo "<script type='text/javascript'>location.replace('./parse.php');</script>";
-    exit();
-}
-
+echo "<script type='text/javascript'>location.replace('./parsingList.php');</script>";
+exit();
 
 ?>
 

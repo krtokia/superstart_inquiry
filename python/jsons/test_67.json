@@ -1,0 +1,29 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [
+            "항공업계 \"항공발전조합 설립에 정부지원 절실\"",
+            "공항사용료 감면 8월까지…항공운송 관세인하 자동차부품 확대"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20금융안전&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [
+            "2020-08-09 10:01",
+            "2020-04-23 08:03"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20금융안전&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [
+            "...에 정부 지원을 요청했다.\n    대한항공[003490], 아시아나항공[020560],제주항공[089590] 등 국내 항공사들은 한국항공협회 명의로 7일 '항공발전조합 ...금 등을 통해 지원하고 있지만 현재 위기를 극복하려면 단기 대응을 넘어금융안전망 신설 등 중장기적인 관점에서 지원이 필요하다\"고 말했다.\n    ...",
+            "...차부품은 확대한다. 주력산업을 대상으로 한금융안전망도 강화한다.\n    정부는 23일 홍남기 ... 400억원, 티웨이에는 60억원을 각각 지원했고,제주·이스타항공에는 공정위 기업결합심사 후 ...월 연장하는 방안도 검토 중이다.\n    ◇ 주력산업금융안전망 강화\n    정부는 주력산업을 대상으로 한 금융 ..."
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20금융안전&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [
+            "[연합뉴스 이 시각 헤드라인] - 14:00"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20의료제품%20사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [
+            "2021-12-27 14:00"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20의료제품%20사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [
+            "...기 위해 제조·수입자가 국내에 허가되지 않은의료제품을 공급하는 제도다. \n\n    전문보기: http://...방안을 오는 31일 발표할 전망이다. 손영래 중앙사고수습본부(중수본) 사회전략반장은 27일 코로나19 ... 폭 축소\"\n\n    올해 4분기 들어 수도권과제주권 등 전국 대부분 지역에서 집값 상승세가 ..."
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=제주%20의료제품%20사고&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]

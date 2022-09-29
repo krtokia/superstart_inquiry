@@ -1,0 +1,2 @@
+docker run -d -p 127.0.0.1:8010:80 -v /data/web/superstart_inquiry:/var/www/html --add-host=host.docker.internal:host-gateway --name inquiry_server krtokia/superstart_inquiry
+

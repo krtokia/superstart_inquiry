@@ -1,16 +1,16 @@
 <?php
-$conn = mysqli_connect('host.docker.internal', 'ss_inquiry', '2017tbtm!1004', 'superstart_inquiry', 3306) or die("Cannot connet");
-mysqli_query($conn, 'set name utf8');
 
-$qry = mysqli_query($conn, "SELECT * FROM user");
+// $mysql = new mysqli('host.docker.internal', 'ss_inquiry', '2017tbtm!1004', 'superstart_inquiry', 3306) or die("Cannot connet");
 
-while ($row = mysqli_fetch_array($qry)) {
-    print_r($row);
-}
+// $qry = $mysql->query("SELECT * FROM user");
+// // $qry = mysqli_query($mysql, "select * from user");
+// // var_dump($qry);
+// while($row = $qry->fetch_assoc()) {
+//     print_r($row);
+// }
+// var_dump($qry);
+
+phpinfo();
 
 
-// phpinfo();
-
-
-
-// var_dump(extension_loaded('mysqli'));
+?>

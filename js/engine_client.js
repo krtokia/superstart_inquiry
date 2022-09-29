@@ -17,7 +17,7 @@ function getEQ(el) {
     for (var i = 0; i < target.length; i++) {
         var t = target[i];
         if (t == el) {
-            eq = i+1;
+            eq = i + 1;
             break;
         }
     }
@@ -26,18 +26,18 @@ function getEQ(el) {
 
 function __initStart() {
     // IS_LOAD_END = false;
-    
-    var all = _document.body.getElementsByTagName("*");
-    for(var i=1; i<=all.length; i++) {
-        try {
-        var element = all[i];
 
-        if(element.tagName == "IFRAME") {
-            element.innerHTML = "";
-            continue;
-        }
-        element.dataset.ss_id = "ss-"+i;
-        } catch(e) {}
+    var all = _document.body.getElementsByTagName("*");
+    for (var i = 1; i <= all.length; i++) {
+        try {
+            var element = all[i];
+
+            if (element.tagName == "IFRAME") {
+                element.innerHTML = "";
+                continue;
+            }
+            element.dataset.ss_id = "ss-" + i;
+        } catch (e) { }
     }
 
     var clicks = _document.querySelectorAll("a,*[onClick],*[onclick]");
@@ -62,19 +62,26 @@ function __initStart() {
 }
 
 function _parsingStart() {
+
     // _toggleClickData();
     // renderResult();
-    _document.addEventListener("mouseover", _parsingStart_over);
-    _document.addEventListener("click", _parsingStart_click);
+    try {
+        _document.addEventListener("mouseover", _parsingStart_over);
+        _document.addEventListener("click", _parsingStart_click);
+    } catch (e) {
+
+    }
 }
 function _parsingStop() {
     // _toggleClickData();
     // renderResult();
-    
     cancleSelect();
-    try { document.querySelector("input[type=radio]:checked").checked = false; } catch (e) { }
-    _document.removeEventListener("mouseover", _parsingStart_over);
-    _document.removeEventListener("click", _parsingStart_click);
+    try {
+        document.querySelector("input[type=radio]:checked").checked = false;
+        _document.removeEventListener("mouseover", _parsingStart_over);
+        _document.removeEventListener("click", _parsingStart_click);
+    } catch (e) { }
+
 }
 function _parsingStart_over(e) {
     var exclude = ["HTML", "BODY", "IFRAME", "TABLE"];
@@ -82,7 +89,7 @@ function _parsingStart_over(e) {
         return;
     }
     try {
-        _document.querySelector("*[data-sshighlight]:not([data-ss_id='"+e.target.dataset.ss_id+"'])").removeAttribute("data-sshighlight")
+        _document.querySelector("*[data-sshighlight]:not([data-ss_id='" + e.target.dataset.ss_id + "'])").removeAttribute("data-sshighlight")
     } catch (e) { }
     MOUSE_OVERED = e.target.dataset.ss_id;
     e.target.dataset.sshighlight = "true";
@@ -93,7 +100,10 @@ function _parsingStart_click(e) {
         return;
     }
     _clickDataSet(null, false);
-    // console.log(CTRL_KEY)
+
+    var tempqry = TEMP_QUERY;
+    var tempqry_s = TEMP_QUERY_SINGLE;
+
     // console.log(ALT_KEY)
     // console.log(SHIFT_KEY)
     // var chk = e.target.dataset.ssclick;
@@ -113,7 +123,10 @@ function _parsingStart_click(e) {
     TEMP_QUERY = _getSelector(e.target);
     TEMP_QUERY_SINGLE = _getSelector(e.target, 5, true);
 
-    
+    if (CTRL_KEY) {
+        TEMP_QUERY = tempqry + "," + TEMP_QUERY;
+        TEMP_QUERY_SINGLE = tempqry_s + "," + TEMP_QUERY_SINGLE;
+    }
 
     CONFIRM_QUERY = TEMP_QUERY_SINGLE;
     if (SELECT_MODE == "plist") {
@@ -140,6 +153,8 @@ function _parsingNext(query, update = null) {
     }
     QS_AVAILABLE = `${multi.toString()},${href.toString()}`;
 
+    console.log(query);
+
     // if (UPDATE_MODE !== false) {
     //     var t = document.querySelector("*[data-page='" + UPDATE_MODE + "']");
     //     var tt = t.querySelector("input[name=dataType]");
@@ -158,7 +173,7 @@ function _getSelector(el, depth = 2, strict = false) {
     //     _clickDataSet(null, false);
     // }
     var target = el;
-    
+
     var classes = [];
     var cnt = 0;
     var safe = 0;
@@ -194,7 +209,7 @@ function _getSelector(el, depth = 2, strict = false) {
                 clsname = target.tagName.toString().toLowerCase() + "." + clsname;
             }
             if (strict) {
-                    clsname += ":nth-child(" + getEQ(target) + ")"
+                clsname += ":nth-child(" + getEQ(target) + ")"
             }
             classes.unshift(clsname);
             cnt++;
@@ -256,7 +271,7 @@ function _toggleClickData() {
     } else {
         query = document.querySelector("#plistQuery");
     }
-    
+
     if (!query || !query.value) {
         return;
     }

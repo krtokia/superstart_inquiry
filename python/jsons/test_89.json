@@ -1,0 +1,26 @@
+[
+    {
+        "column": "제목",
+        "query": "div.cts_atclst>ul>li>a>span.tt2:nth-child(1)",
+        "data": [
+            "'우리동네 안전정보 한눈에' 생활안전지도 공개"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=%EC%A0%9C%EC%A3%BC%20%EC%95%88%EC%A0%84%EC%B7%A8%EC%95%BD%EA%B3%84%EC%B8%B5%20%EC%82%AC%EA%B3%A0&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "날짜",
+        "query": "span.fl>span.pbdt:nth-child(2),span.fl>span.pbdt:nth-child(3)",
+        "data": [
+            "2014-09-30 12:00"
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=%EC%A0%9C%EC%A3%BC%20%EC%95%88%EC%A0%84%EC%B7%A8%EC%95%BD%EA%B3%84%EC%B8%B5%20%EC%82%AC%EA%B3%A0&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    },
+    {
+        "column": "본문",
+        "query": "span.fl>span.cts:nth-child(1),span.fl>span.cts:nth-child(2)",
+        "data": [
+            "..., 충북 충주시, 충남 천안시, 경북 구미시,제주제주시, 대구 달성군, 전남 무안군, 경남 거창군 ...파악할 수 있도록 했다. \n    교통분야는 교통사고발생빈도를, 재난안전지도는 산사태와 화재 ... 표시했다. \n\n\n    또 어린이, 여성, 노인 등안전취약계층에 적합한 '맞춤안전지도'도 제공된다. \n    ..."
+        ],
+        "url": "https://www.yna.co.kr/search/index?query=%EC%A0%9C%EC%A3%BC%20%EC%95%88%EC%A0%84%EC%B7%A8%EC%95%BD%EA%B3%84%EC%B8%B5%20%EC%82%AC%EA%B3%A0&ctype=A&from=20120101&to=20211231&period=diy&page_no=1"
+    }
+]
